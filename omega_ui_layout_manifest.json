@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "engine": "@ui-layout",
+  "version": "4.0",
+  "theme": "Cyber-Obsidian-Dark-Neon",
+  "title": "OmegaSovereign Command Center v4.0",
+  "window": "1400x780",
+  "usable_width": 1366,
+  "left_pane_width": 443,
+  "right_pane_width": 909,
+  "splitter_gap": 14,
+  "pane_1_listbox_style": 1412694337,
+  "pane_2_editor_style": 1412698308,
+  "pane_3_listbox_style": 1412694337,
+  "pane_4_telemetry_style": 1412698308,
+  "dark_obsidian_colorref": 1904394,
+  "owner_draw_bs_ownerdraw_buttons": 7,
+  "win32_nc_hittest_rax_preserved": true,
+  "web_grid_lowering": "css-grid-4pane-wasm"
+}

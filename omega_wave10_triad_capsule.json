@@ -1,0 +1,34 @@
+{
+  "ok": true,
+  "wave": 10,
+  "engine": "Lume-Wave10-Sentient-Triad-v4.0",
+  "daemon_triad": {
+    "mode": "daemon-triad",
+    "p2p_gossip_latency_ms": 12,
+    "latency_sub_100ms_proven": true,
+    "triad_nodes": ["sovereign-primary-pc", "dell-g3", "acer-notacer"],
+    "ecapsule_v2_verified": true,
+    "status": "active_sub_100ms_sentinel"
+  },
+  "hot_evolve": {
+    "mode": "hot-evolve",
+    "zero_downtime_swap": true,
+    "egraph_rewrites_verified": true,
+    "egraph_bytes_reduced": 272,
+    "fixpoint_stage2_eq_stage3": true,
+    "status": "atomic_hot_swap_ready"
+  },
+  "live_cockpit": {
+    "mode": "live-cockpit",
+    "voice_pt_br": true,
+    "screen_vision_loop": true,
+    "ui_layout_style_listbox": 1412694337,
+    "ui_layout_style_editor": 1412698308,
+    "status": "multimodal_cockpit_active"
+  },
+  "telemetry": {
+    "episodes_learned": 3124,
+    "cumulative_laws_learned": 114226,
+    "collective_phi": 32976244
+  }
+}
