@@ -28,7 +28,7 @@
   <text x="24" y="34" class="h1">Ω Omega Sovereign v1.1.0 — 100%-Lume Multimodal AI Workstation &amp; Native Win64 Command Center</text>
   <text x="24" y="54" class="sub">Zero C/C++/Rust/Python Runtime · 33,792B Native PE32+ GUI + HTTP Cockpit · 6 Sovereign Pillars + Chameleon 9-Eco FFI</text>
 
-  <!-- Node 1: Native Win64 GUI & Web Cockpit -->
+  <!-- Node 1: Native Win64 GUI &amp; Web Cockpit -->
   <rect x="20" y="72" width="252" height="164" rx="10" fill="#091326" stroke="#10b981" stroke-width="1.4"/>
   <text x="34" y="96" class="box-title" fill="#10b981">1. Native Win64 GUI &amp; Web</text>
   <text x="34" y="118" class="mono">• OmegaSovereign_GUI.exe (33KB)</text>
@@ -42,7 +42,7 @@
   <!-- Animated Connector 1 -> 2 -->
   <line x1="272" y1="154" x2="304" y2="154" stroke="#38bdf8" stroke-width="2.5" class="flow"/>
 
-  <!-- Node 2: Local Hybrid LLM & Silicon Router -->
+  <!-- Node 2: Local Hybrid LLM &amp; Silicon Router -->
   <rect x="304" y="72" width="252" height="164" rx="10" fill="#091326" stroke="#38bdf8" stroke-width="1.4"/>
   <text x="318" y="96" class="box-title" fill="#38bdf8">2. Local AI &amp; Silicon Router</text>
   <text x="318" y="118" class="mono">• Ollama Local Multimodal Bus</text>
@@ -56,7 +56,7 @@
   <!-- Animated Connector 2 -> 3 -->
   <line x1="556" y1="154" x2="588" y2="154" stroke="#a855f7" stroke-width="2.5" class="flow"/>
 
-  <!-- Node 3: QF_LIA Prover & Chameleon 9-Eco Bridge -->
+  <!-- Node 3: QF_LIA Prover &amp; Chameleon 9-Eco Bridge -->
   <rect x="588" y="72" width="252" height="164" rx="10" fill="#091326" stroke="#a855f7" stroke-width="1.4"/>
   <text x="602" y="96" class="box-title" fill="#c084fc">3. QF_LIA &amp; Chameleon 9-Eco</text>
   <text x="602" y="118" class="mono">• [I0003] unverified -&gt; verified</text>
