@@ -1,0 +1,7 @@
+# LUME QUATERNARY DNA4 ARCHIVAL CODEC (Goldman-Church Non-Repeating Nucleotides)
+# Law Proven: dna4_no_homopolymer_law (n[i] != n[i-1]) & dna4_trit_bijection_law
+HEADER: LUME_SOVEREIGN_GENOME_V3_QF_LIA_VERIFIED
+ORIGIN_ANCHOR: A
+STRAND_5_TO_3: 5'-AGCGCTAGCACTG-3'
+HOMOPOLYMER_COUNT: 0
+ROUNDTRIP_TRITS_OK: 1

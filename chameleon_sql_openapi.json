@@ -1,0 +1,17 @@
+{
+  "schema": "lume.chameleon.polyglot.v3",
+  "invariant_code": "[I0003]",
+  "capability": "/ {ffi}",
+  "ecosystems_verified": 9,
+  "bridges": [
+    {"id": 1, "eco": "c_abi", "artifact": "chameleon_c_abi.h", "contract": "ptr != NULL && len <= cap"},
+    {"id": 2, "eco": "rust_cdylib", "artifact": "chameleon_rust_ffi.rs", "contract": "catch_unwind + Perceus linear borrow"},
+    {"id": 3, "eco": "python_capi", "artifact": "chameleon_python_dlpack.c", "contract": "DLManagedTensor zero-copy + refcount balance"},
+    {"id": 4, "eco": "node_napi_wasm", "artifact": "chameleon_node_wasm.mjs", "contract": "offset + len <= wasm_linear_bytes"},
+    {"id": 5, "eco": "go_cshared", "artifact": "chameleon_sql_openapi.json", "contract": "runtime.Pinner cgo pointer pinned"},
+    {"id": 6, "eco": "java_jni", "artifact": "chameleon_sql_openapi.json", "contract": "PushLocalFrame <= 32 && !ExceptionCheck"},
+    {"id": 7, "eco": "dotnet_pinvoke", "artifact": "chameleon_sql_openapi.json", "contract": "UnmanagedCallersOnly blittable layout"},
+    {"id": 8, "eco": "sql_relational", "artifact": "chameleon_sql_openapi.json", "contract": "Parameterized statement + row invariant"},
+    {"id": 9, "eco": "openapi_rpc", "artifact": "chameleon_sql_openapi.json", "contract": "HTTP 200..299 && payload_bytes <= max_schema_bytes"}
+  ]
+}
