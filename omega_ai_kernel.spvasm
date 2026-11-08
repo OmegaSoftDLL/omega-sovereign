@@ -1,0 +1,136 @@
+; SPIR-V
+; Version: 1.6
+OpCapability Shader
+OpMemoryModel Logical GLSL450
+OpEntryPoint GLCompute %dfe_calc_vnf "dfe_calc_vnf"
+OpExecutionMode %dfe_calc_vnf LocalSize 128 1 1
+%long = OpTypeInt 64 1
+%bool = OpTypeBool
+%zero = OpConstant %long 0
+%one = OpConstant %long 1
+%dfe_calc_vnf = OpFunction %void None %fn_ty
+%entry = OpLabel
+    %v0 = OpConstant %long 100000
+    %v_vprod_1 = OpCopyObject %long %v0
+    %v2 = OpConstant %long 5000
+    %v_vdesc_3 = OpCopyObject %long %v2
+    %v4 = OpConstant %long 8000
+    %v_vfrete_5 = OpCopyObject %long %v4
+    %v6 = OpConstant %long 1500
+    %v_vseg_7 = OpCopyObject %long %v6
+    %v8 = OpConstant %long 0
+    %v_voutro_9 = OpCopyObject %long %v8
+    %v10 = OpConstant %long 15000
+    %v_vipi_11 = OpCopyObject %long %v10
+    %v12 = OpCopyObject %long %v_vprod_1
+    %v13 = OpCopyObject %long %v_vdesc_3
+    %v14 = OpISub %long %v12 %v13
+    %v15 = OpCopyObject %long %v_vfrete_5
+    %v16 = OpIAdd %long %v14 %v15
+    %v17 = OpCopyObject %long %v_vseg_7
+    %v18 = OpIAdd %long %v16 %v17
+    %v19 = OpCopyObject %long %v_voutro_9
+    %v20 = OpIAdd %long %v18 %v19
+    %v21 = OpCopyObject %long %v_vipi_11
+    %v22 = OpIAdd %long %v20 %v21
+    OpStore %out_ptr %v22
+    %v24 = OpConstant %long 45000
+    %v_principal_cents_25 = OpCopyObject %long %v24
+    %v26 = OpConstant %long 900
+    %v_fine_cents_27 = OpCopyObject %long %v26
+    %v28 = OpConstant %long 450
+    %v_interest_cents_29 = OpCopyObject %long %v28
+    %v30 = OpConstant %long 0
+    %v_discount_cents_31 = OpCopyObject %long %v30
+    %v32 = OpConstant %long 46350
+    %v_paid_cents_33 = OpCopyObject %long %v32
+    %v34 = OpCopyObject %long %v_principal_cents_25
+    %v35 = OpCopyObject %long %v_fine_cents_27
+    %v36 = OpIAdd %long %v34 %v35
+    %v37 = OpCopyObject %long %v_interest_cents_29
+    %v38 = OpIAdd %long %v36 %v37
+    %v39 = OpCopyObject %long %v_discount_cents_31
+    %v40 = OpISub %long %v38 %v39
+    %v_due_41 = OpCopyObject %long %v40
+    %v42 = OpCopyObject %long %v_paid_cents_33
+    %v43 = OpCopyObject %long %v_due_41
+    %b44 = OpSGreaterThanEqual %bool %v42 %v43
+    %v44 = OpSelect %long %b44 %one %zero
+    %v45 = OpCopyObject %long %v_due_41
+    %v46 = OpConstant %long 0
+    %b47 = OpINotEqual %bool %v44 %zero
+    %v47 = OpSelect %long %b47 %v45 %v46
+    OpStore %out_ptr %v47
+    %v49 = OpConstant %long 1
+    %v_pegasus_hits_50 = OpCopyObject %long %v49
+    %v51 = OpConstant %long 0
+    %v_predator_hits_52 = OpCopyObject %long %v51
+    %v53 = OpConstant %long 0
+    %v_candiru_hits_54 = OpCopyObject %long %v53
+    %v55 = OpConstant %long 1
+    %v_stalker_hits_56 = OpCopyObject %long %v55
+    %v57 = OpCopyObject %long %v_pegasus_hits_50
+    %v58 = OpCopyObject %long %v_predator_hits_52
+    %v59 = OpIAdd %long %v57 %v58
+    %v60 = OpCopyObject %long %v_candiru_hits_54
+    %v61 = OpIAdd %long %v59 %v60
+    %v62 = OpConstant %long 0
+    %b63 = OpSGreaterThan %bool %v61 %v62
+    %v63 = OpSelect %long %b63 %one %zero
+    %v64 = OpConstant %long 2
+    %v65 = OpCopyObject %long %v_stalker_hits_56
+    %v66 = OpConstant %long 0
+    %b67 = OpSGreaterThan %bool %v65 %v66
+    %v67 = OpSelect %long %b67 %one %zero
+    %v68 = OpConstant %long 1
+    %v69 = OpConstant %long 0
+    %b70 = OpINotEqual %bool %v67 %zero
+    %v70 = OpSelect %long %b70 %v68 %v69
+    %b71 = OpINotEqual %bool %v63 %zero
+    %v71 = OpSelect %long %b71 %v64 %v70
+    OpStore %out_ptr %v71
+    %v73 = OpConstant %long 120
+    %v_x0_74 = OpCopyObject %long %v73
+    %v75 = OpConstant %long 1
+    %v_w0_76 = OpCopyObject %long %v75
+    %v77 = OpConstant %long 45
+    %v_x1_78 = OpCopyObject %long %v77
+    %v79 = OpConstant %long 0
+    %v80 = OpConstant %long 1
+    %v81 = OpISub %long %v79 %v80
+    %v_w1_82 = OpCopyObject %long %v81
+    %v83 = OpConstant %long 40
+    %v_x2_84 = OpCopyObject %long %v83
+    %v85 = OpConstant %long 1
+    %v_w2_86 = OpCopyObject %long %v85
+    %v87 = OpCopyObject %long %v_x0_74
+    %v88 = OpCopyObject %long %v_w0_76
+    %v89 = OpIMul %long %v87 %v88
+    %v90 = OpCopyObject %long %v_x1_78
+    %v91 = OpCopyObject %long %v_w1_82
+    %v92 = OpIMul %long %v90 %v91
+    %v93 = OpIAdd %long %v89 %v92
+    %v94 = OpCopyObject %long %v_x2_84
+    %v95 = OpCopyObject %long %v_w2_86
+    %v96 = OpIMul %long %v94 %v95
+    %v97 = OpIAdd %long %v93 %v96
+    %v_raw_98 = OpCopyObject %long %v97
+    %v99 = OpCopyObject %long %v_raw_98
+    %v100 = OpConstant %long 0
+    %b101 = OpSGreaterThan %bool %v99 %v100
+    %v101 = OpSelect %long %b101 %one %zero
+    %v102 = OpCopyObject %long %v_raw_98
+    %v103 = OpConstant %long 0
+    %b104 = OpINotEqual %bool %v101 %zero
+    %v104 = OpSelect %long %b104 %v102 %v103
+    %v_result_105 = OpCopyObject %long %v104
+    %v106 = OpCopyObject %long %v_result_105
+    %v107 = OpConstant %long 0
+    %b108 = OpSGreaterThanEqual %bool %v106 %v107
+    %v108 = OpSelect %long %b108 %one %zero
+    %btrap109 = OpIEqual %bool %v108 %zero
+    OpTrapIf %btrap109
+    %v110 = OpCopyObject %long %v_result_105
+    OpStore %out_ptr %v110
+    OpReturn
+OpFunctionEnd

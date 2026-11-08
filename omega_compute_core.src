@@ -1,0 +1,50 @@
+// ============================================================================
+// OmegaSovereign Compute Core v1.1.0 — Multi-Target Numeric & AI Kernel Suite
+// Compiled by Lume v1.1.0 to PE64 CLI, WASI, Web-DOM WASM, CUDA PTX, SPIR-V & Verilog RTL
+// ============================================================================
+
+fn dfe_calc_vnf(vprod: int, vdesc: int, vfrete: int, vseg: int, voutro: int, vipi: int) -> int
+  requires vprod >= vdesc
+  requires vprod >= 0
+  requires vdesc >= 0
+  requires vfrete >= 0
+  requires vseg >= 0
+  requires voutro >= 0
+  requires vipi >= 0
+  ensures result >= 0
+=
+  (vprod - vdesc) + vfrete + vseg + voutro + vipi
+
+fn pix_cobv_settle(principal_cents: int, fine_cents: int, interest_cents: int, discount_cents: int, paid_cents: int) -> int
+  requires principal_cents > 0
+  requires fine_cents >= 0
+  requires interest_cents >= 0
+  requires discount_cents >= 0
+  requires principal_cents + fine_cents + interest_cents >= discount_cents
+  ensures result >= 0
+=
+  let due = principal_cents + fine_cents + interest_cents - discount_cents in
+  if paid_cents >= due then due else 0
+
+fn zbt_triage_verdict(pegasus_hits: int, predator_hits: int, candiru_hits: int, stalker_hits: int) -> int
+  requires pegasus_hits >= 0
+  requires predator_hits >= 0
+  requires candiru_hits >= 0
+  requires stalker_hits >= 0
+  ensures result >= 0
+  ensures result <= 2
+=
+  if pegasus_hits + predator_hits + candiru_hits > 0 then 2
+  else if stalker_hits > 0 then 1
+  else 0
+
+fn llm_ternary_dot3_relu(x0: int, w0: int, x1: int, w1: int, x2: int, w2: int) -> int
+  ensures result >= 0
+=
+  let raw = (x0 * w0) + (x1 * w1) + (x2 * w2) in
+  if raw > 0 then raw else 0
+
+print(dfe_calc_vnf(100000, 5000, 8000, 1500, 0, 15000))
+print(pix_cobv_settle(45000, 900, 450, 0, 46350))
+print(zbt_triage_verdict(1, 0, 0, 1))
+print(llm_ternary_dot3_relu(120, 1, 45, 0 - 1, 40, 1))
