@@ -1,0 +1,77 @@
+## Omega Sovereign v4.0 — Pillar [07]: Local Multimodal LLM Hybrid Router & VRAM Budget Guard
+## Routes local inference across Gemma 4 E2B, Ministral 3 3B Q4, and Bonsai 1.58-bit ternary engines
+## with formal VRAM admission contracts and deterministic financial scraping verification.
+
+use std.io
+
+type Tier = enum
+    FastEdge
+    BalancedQ4
+    Ternary1Bit
+    RejectedOom
+
+type ModelSpec = record
+    name:        str
+    weights_mb:  int
+    kv_per_1k:   int
+    min_quant_b: int
+    invariant weights_mb > 0
+    invariant kv_per_1k >= 16
+
+type RouteError = error
+    InsufficientVram(required_mb: int, available_mb: int)
+    QuantizationTrap(bits: int)
+
+fn estimate_vram_mb(spec: ModelSpec, ctx_k: int) -> int
+    requires ctx_k >= 1 and ctx_k <= 128
+    ensures result >= spec.weights_mb + 16
+    spec.weights_mb + spec.kv_per_1k * ctx_k
+
+fn select_local_tier(vram_budget_mb: int, ctx_k: int, allow_ternary: bool) -> Tier ! RouteError
+    requires vram_budget_mb >= 512 and ctx_k >= 1 and ctx_k <= 128
+    let gemma_e2b = ModelSpec(name: "gemma-4-e2b-text-q4", weights_mb: 1680, kv_per_1k: 48, min_quant_b: 4)
+    let ministral = ModelSpec(name: "ministral-3-3b-q4_k_m", weights_mb: 2350, kv_per_1k: 64, min_quant_b: 4)
+    let bonsai_1b = ModelSpec(name: "bonsai-27b-ternary-1.58b", weights_mb: 3980, kv_per_1k: 96, min_quant_b: 2)
+
+    let need_bonsai = estimate_vram_mb(bonsai_1b, ctx_k)
+    let need_ministral = estimate_vram_mb(ministral, ctx_k)
+    let need_gemma = estimate_vram_mb(gemma_e2b, ctx_k)
+
+    if allow_ternary and vram_budget_mb >= need_bonsai
+        Tier.Ternary1Bit
+    elif vram_budget_mb >= need_ministral
+        Tier.BalancedQ4
+    elif vram_budget_mb >= need_gemma
+        Tier.FastEdge
+    else
+        fail RouteError.InsufficientVram(required_mb: need_gemma, available_mb: vram_budget_mb)
+
+fn verify_scraped_offer(raw_price: decimal(12, 2), floor_price: decimal(12, 2), ceiling_price: decimal(12, 2), in_stock: bool) -> bool
+    requires floor_price > 0.00 and ceiling_price >= floor_price
+    in_stock and raw_price >= floor_price and raw_price <= ceiling_price
+
+fn tier_label(t: Tier) -> str
+    match t
+        FastEdge    => "gemma-4-e2b-text-q4"
+        BalancedQ4  => "ministral-3-3b-q4_k_m"
+        Ternary1Bit => "bonsai-27b-ternary-1.58b"
+        RejectedOom => "rejected-oom"
+
+fn main()
+    let t1 = select_local_tier(8192, 8, true) catch |_| Tier.RejectedOom
+    let t2 = select_local_tier(3072, 4, false) catch |_| Tier.RejectedOom
+    let t3 = select_local_tier(2048, 4, false) catch |_| Tier.RejectedOom
+    assert tier_label(t1) == "bonsai-27b-ternary-1.58b", "8 GB tier mismatch"
+    assert tier_label(t2) == "ministral-3-3b-q4_k_m", "3 GB tier mismatch"
+    assert tier_label(t3) == "gemma-4-e2b-text-q4", "2 GB tier mismatch"
+
+    let oom_rejected = match select_local_tier(1024, 8, false)
+        ok(_)                            => false
+        err(InsufficientVram(req, av))   => req > av
+        err(QuantizationTrap(_))         => false
+    assert oom_rejected, "1 GB budget must fail closed"
+
+    assert verify_scraped_offer(149.90, 50.00, 500.00, true), "valid offer rejected"
+    assert not verify_scraped_offer(14990.00, 50.00, 500.00, true), "comma-shift hallucination must fail"
+    assert not verify_scraped_offer(149.90, 50.00, 500.00, false), "out-of-stock offer must fail"
+    io.println("omega-sovereign llm_hybrid_router: verified ({tier_label(t1)}, {tier_label(t2)}, {tier_label(t3)})")

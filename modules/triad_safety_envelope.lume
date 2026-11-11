@@ -1,0 +1,59 @@
+## Omega Sovereign v4.0 — Pillar [03] & [11]: Wave 10 Sentient Triad & 2oo2D Lockstep Safety Envelope
+## Dual-channel x86_64 vs LumePuter RV32IM comparator with fail-closed SAFE_STATE_TRIP and 3-node Triad quorum.
+
+use std.io
+
+type EnvelopeState = enum
+    NominalCommit
+    SafeStateTrip
+
+type ChannelDigest = record
+    channel_id: str
+    result_val: int
+    step_count: int
+    invariant step_count >= 0
+
+type TriadNode = record
+    hostname:    str
+    episode:     int
+    laws_proven: int
+    healthy:     bool
+    invariant episode >= 0 and laws_proven >= 0
+
+fn compare_2oo2d_lockstep(ch_a: ChannelDigest, ch_b: ChannelDigest, max_steps: int) -> EnvelopeState
+    requires max_steps >= 1
+    if ch_a.result_val != ch_b.result_val
+        EnvelopeState.SafeStateTrip
+    elif ch_a.step_count > max_steps or ch_b.step_count > max_steps
+        EnvelopeState.SafeStateTrip
+    else
+        EnvelopeState.NominalCommit
+
+fn triad_quorum_ready(nodes: [TriadNode], min_episode: int) -> bool
+    requires nodes.len() == 3 and min_episode >= 1
+    let synced = [n for n in nodes if n.healthy and n.episode >= min_episode]
+    synced.len() >= 2
+
+fn main()
+    let x86_ch = ChannelDigest(channel_id: "x86_64-native", result_val: 4200, step_count: 128)
+    let rv32_ok = ChannelDigest(channel_id: "lumeputer-rv32im", result_val: 4200, step_count: 164)
+    let rv32_fault = ChannelDigest(channel_id: "lumeputer-rv32im", result_val: 4201, step_count: 164)
+
+    let ok_commit = match compare_2oo2d_lockstep(x86_ch, rv32_ok, 4096)
+        NominalCommit => true
+        SafeStateTrip => false
+    assert ok_commit, "matching channels must commit"
+
+    let fault_trip = match compare_2oo2d_lockstep(x86_ch, rv32_fault, 4096)
+        NominalCommit => false
+        SafeStateTrip => true
+    assert fault_trip, "divergent channels must trip safe state"
+
+    let cluster = [
+        TriadNode(hostname: "primary-workstation", episode: 3124, laws_proven: 114226, healthy: true),
+        TriadNode(hostname: "dell-g3-node",        episode: 3124, laws_proven: 114226, healthy: true),
+        TriadNode(hostname: "acer-edge-node",      episode: 3120, laws_proven: 114190, healthy: false)
+    ]
+    assert triad_quorum_ready(cluster, 3124), "2-of-3 Triad quorum must hold when 2 nodes are synced"
+    assert not triad_quorum_ready(cluster, 3200), "stale episode must not pass quorum"
+    io.println("omega-sovereign triad_safety_envelope: 2oo2D lockstep + 2/3 Triad quorum verified")

@@ -1,0 +1,40 @@
+* text=auto eol=lf
+
+# Omega Sovereign is built 100% in Lume (.lume surface modules and .src Lume-Core engines).
+*.lume linguist-language=Lume linguist-detectable=true
+*.src  linguist-language=Lume linguist-detectable=true
+
+# Generated polyglot FFI headers/wrappers, synthesized hardware RTL, and telemetry artifacts.
+chameleon_*           linguist-generated=true linguist-vendored
+*.v                   linguist-generated=true linguist-vendored
+*.ptx                 linguist-generated=true linguist-vendored
+*.spvasm              linguist-generated=true linguist-vendored
+*.qasm                linguist-generated=true linguist-vendored
+*.dna4                linguist-generated=true linguist-vendored
+*.cert                linguist-generated=true linguist-vendored
+*.json                linguist-vendored
+*.yml                 linguist-vendored
+*.cff                 linguist-vendored
+*.html                linguist-generated=true linguist-vendored
+*.svg                 linguist-vendored
+
+# Documentation and Wiki.
+*.md                  linguist-documentation
+docs/**               linguist-documentation
+
+# Enforce pure LF line endings on all text sources.
+*.lume text eol=lf
+*.src  text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.html text eol=lf
+
+# Binary artifacts.
+*.exe    binary
+*.wasm   binary
+*.kernel binary
+*.png    binary
+*.jpg    binary
+*.ico    binary
+*.ppm    binary

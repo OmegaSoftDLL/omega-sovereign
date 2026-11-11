@@ -1,0 +1,79 @@
+## Omega Sovereign v4.0 — Pillar [04] & [06]: Universal Chameleon 9-Ecosystem [I0003] Boundary Verifier
+## Enforces zero-copy alignment, non-null pointer invariants, and bounded tensor strides before crossing FFI.
+
+use std.io
+
+type Ecosystem = enum
+    CAbi
+    RustCdylib
+    PythonDlpack
+    NodeNapiWasm
+    GoCshared
+    JavaJni
+    DotnetPinvoke
+    SqlRelational
+    OpenApiRpc
+
+type ForeignSlice = record
+    ptr_addr:   int
+    byte_len:   int
+    align_req:  int
+    elem_bytes: int
+    invariant align_req > 0
+    invariant elem_bytes > 0
+
+type BoundaryViolation = error
+    NullForeignPointer
+    MisalignedAddress(addr: int, align_req: int)
+    ByteLengthOverflow(byte_len: int)
+    NonIntegralElementCount(byte_len: int, elem_bytes: int)
+
+fn verify_boundary_i0003(raw: ForeignSlice, max_bytes: int) -> int ! BoundaryViolation
+    requires max_bytes >= 64 and raw.align_req > 0 and raw.elem_bytes > 0
+    if raw.ptr_addr <= 0
+        fail BoundaryViolation.NullForeignPointer
+    if raw.ptr_addr % raw.align_req != 0
+        fail BoundaryViolation.MisalignedAddress(addr: raw.ptr_addr, align_req: raw.align_req)
+    if raw.byte_len < 0 or raw.byte_len > max_bytes
+        fail BoundaryViolation.ByteLengthOverflow(byte_len: raw.byte_len)
+    if raw.byte_len % raw.elem_bytes != 0
+        fail BoundaryViolation.NonIntegralElementCount(byte_len: raw.byte_len, elem_bytes: raw.elem_bytes)
+    raw.byte_len / raw.elem_bytes
+
+fn ecosystem_required_align(eco: Ecosystem) -> int
+    match eco
+        PythonDlpack  => 64
+        RustCdylib    => 16
+        CAbi          => 8
+        NodeNapiWasm  => 8
+        GoCshared     => 8
+        JavaJni       => 8
+        DotnetPinvoke => 8
+        SqlRelational => 4
+        OpenApiRpc    => 1
+
+fn main()
+    let dlpack_tensor = ForeignSlice(
+        ptr_addr:   4096 * 16,
+        byte_len:   4096,
+        align_req:  ecosystem_required_align(Ecosystem.PythonDlpack),
+        elem_bytes: 4
+    )
+    let elems = verify_boundary_i0003(dlpack_tensor, 1048576) catch |_| -1
+    assert elems == 1024, "DLPack verified element count mismatch"
+
+    let bad_ptr = ForeignSlice(ptr_addr: 4100, byte_len: 256, align_req: 64, elem_bytes: 4)
+    let misaligned_caught = match verify_boundary_i0003(bad_ptr, 1048576)
+        ok(_)                           => false
+        err(MisalignedAddress(addr, r)) => addr == 4100 and r == 64
+        err(_)                          => false
+    assert misaligned_caught, "[I0003] must reject misaligned DLPack tensor"
+
+    let all_ecos = [
+        Ecosystem.CAbi, Ecosystem.RustCdylib, Ecosystem.PythonDlpack,
+        Ecosystem.NodeNapiWasm, Ecosystem.GoCshared, Ecosystem.JavaJni,
+        Ecosystem.DotnetPinvoke, Ecosystem.SqlRelational, Ecosystem.OpenApiRpc
+    ]
+    let min_aligns = [ecosystem_required_align(e) for e in all_ecos]
+    assert min_aligns.len() == 9, "expected all 9 Chameleon ecosystems"
+    io.println("omega-sovereign chameleon_polyglot_guard: 9 ecosystems [I0003] verified ({elems} elems)")

@@ -1,0 +1,58 @@
+## Omega Sovereign v4.0 — Pillar [05]: Sovereign Brazilian FinTech, Pix CobV & SEFAZ NF-e DIFAL Engine
+## Exact decimal(14, 2) double-entry conservation, BACEN Pix CobV settlement, and CNPJ Modulo-11 check digits.
+
+use std.io
+
+type LedgerAccount = record
+    code:    str
+    balance: decimal(14, 2)
+    invariant balance >= 0.00
+
+type SettlementError = error
+    InsufficientLiquidity(available: decimal(14, 2), requested: decimal(14, 2))
+    InvalidRate
+
+fn settle_pix_cobv(
+    payer: mut LedgerAccount,
+    payee: mut LedgerAccount,
+    principal: decimal(14, 2),
+    fine_amount: decimal(14, 2),
+    rebate_amount: decimal(14, 2)
+) -> decimal(14, 2) ! SettlementError
+    requires principal > 0.00 and fine_amount >= 0.00 and rebate_amount >= 0.00
+    requires rebate_amount < principal
+    let net_total = principal + fine_amount - rebate_amount
+    if payer.balance < net_total
+        fail SettlementError.InsufficientLiquidity(available: payer.balance, requested: net_total)
+    let before_sum = payer.balance + payee.balance
+    payer.balance -= net_total
+    payee.balance += net_total
+    assert payer.balance + payee.balance == before_sum, "double-entry conservation violated"
+    net_total
+
+fn compute_nfe_difal_dest(base_value: decimal(14, 2), internal_pct: int, interstate_pct: int) -> decimal(14, 2)
+    requires base_value >= 0.00 and internal_pct >= interstate_pct and interstate_pct >= 4 and internal_pct <= 25
+    let diff_pct = internal_pct - interstate_pct
+    base_value * diff_pct / 100
+
+fn cnpj_mod11_digit(weighted_sum: int) -> int
+    requires weighted_sum >= 0
+    ensures result >= 0 and result <= 9
+    let rem = weighted_sum % 11
+    if rem < 2 then 0 else 11 - rem
+
+fn main()
+    var treasury = LedgerAccount(code: "BR-TREASURY-001", balance: 5000.00)
+    var merchant = LedgerAccount(code: "BR-MERCHANT-774", balance: 250.00)
+
+    let settled = settle_pix_cobv(treasury, merchant, 1000.00, 20.00, 50.00) catch |_| 0.00
+    assert settled == 970.00, "Pix CobV net settlement mismatch"
+    assert treasury.balance == 4030.00, "payer balance mismatch"
+    assert merchant.balance == 1220.00, "payee balance mismatch"
+
+    let difal = compute_nfe_difal_dest(2000.00, 18, 12)
+    assert difal == 120.00, "SEFAZ NF-e DIFAL destination share mismatch"
+
+    assert cnpj_mod11_digit(242) == 0, "Modulo-11 remainder 0 must yield digit 0"
+    assert cnpj_mod11_digit(245) == 8, "Modulo-11 remainder 3 must yield digit 8"
+    io.println("omega-sovereign fintech_pix_nfe_ledger: settled={settled} difal={difal}")

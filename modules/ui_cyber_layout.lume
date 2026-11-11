@@ -1,0 +1,75 @@
+## Omega Sovereign v4.0 — Pillar [05] & [09]: Declarative @ui-layout Cyber-Obsidian 4-Pane Geometry
+## Proves pixel conservation across the 1400x780 Win64 PE32+ Dark Neon Studio and WASM DOM targets.
+
+use std.io
+
+type RgbColor = record
+    r: int
+    g: int
+    b: int
+    invariant r >= 0 and r <= 255
+    invariant g >= 0 and g <= 255
+    invariant b >= 0 and b <= 255
+
+type PaneRect = record
+    id:    str
+    x:     int
+    y:     int
+    w:     int
+    h:     int
+    style: int
+    invariant w > 0 and h > 0
+
+fn pack_win32_colorref(c: RgbColor) -> int
+    requires c.r >= 0 and c.r <= 255 and c.g >= 0 and c.g <= 255 and c.b >= 0 and c.b <= 255
+    ensures result >= 0
+    c.r + c.g * 256 + c.b * 65536
+
+fn split_three_columns(inner_w: int, gap: int, left_w: int, right_w: int) -> [int]
+    requires inner_w >= 800 and gap >= 4 and left_w >= 200 and right_w >= 200
+    requires left_w + right_w + gap * 2 < inner_w
+    let center_w = inner_w - left_w - right_w - gap * 2
+    [left_w, center_w, right_w]
+
+fn build_studio_panes(client_w: int, client_h: int) -> [PaneRect]
+    requires client_w >= 1024 and client_h >= 600
+    let margin = 17
+    let gap = 12
+    let top_y = 64
+    let bottom_h = 196
+    let upper_h = client_h - top_y - bottom_h - gap - margin
+    let inner_w = client_w - margin * 2
+    let cols = split_three_columns(inner_w, gap, 320, 340)
+    let w1 = cols[0]
+    let w2 = cols[1]
+    let w3 = cols[2]
+    let x1 = margin
+    let x2 = x1 + w1 + gap
+    let x3 = x2 + w2 + gap
+    let y4 = top_y + upper_h + gap
+    let style_listbox = 1412694337
+    let style_edit = 1412698308
+    [
+        PaneRect(id: "quadro_1_engines", x: x1, y: top_y, w: w1, h: upper_h, style: style_listbox),
+        PaneRect(id: "quadro_2_dossier", x: x2, y: top_y, w: w2, h: upper_h, style: style_edit),
+        PaneRect(id: "quadro_3_audits",  x: x3, y: top_y, w: w3, h: upper_h, style: style_listbox),
+        PaneRect(id: "quadro_4_console", x: x1, y: y4,    w: inner_w, h: bottom_h, style: style_edit)
+    ]
+
+fn main()
+    let bg_obsidian = RgbColor(r: 6, g: 12, b: 24)
+    let bg_navy     = RgbColor(r: 10, g: 20, b: 40)
+    let fg_emerald  = RgbColor(r: 56, g: 245, b: 212)
+    let fg_gold     = RgbColor(r: 255, g: 189, b: 56)
+
+    assert pack_win32_colorref(bg_obsidian) == 1575942, "obsidian COLORREF mismatch"
+    assert pack_win32_colorref(bg_navy) == 2626570, "navy COLORREF mismatch"
+    assert pack_win32_colorref(fg_emerald) == 13956408, "emerald COLORREF mismatch"
+    assert pack_win32_colorref(fg_gold) == 3718655, "gold COLORREF mismatch"
+
+    let panes = build_studio_panes(1400, 780)
+    assert panes.len() == 4, "expected 4 Cyber-Obsidian panes"
+    let horizontal_sum = panes[0].w + panes[1].w + panes[2].w + 24
+    assert horizontal_sum == panes[3].w, "ui_split_conservation_law violated"
+    assert panes[3].w == 1366, "full-width bottom telemetry console expected 1366px"
+    io.println("omega-sovereign ui_cyber_layout: 4 panes conserved ({panes[3].w}px inner width)")

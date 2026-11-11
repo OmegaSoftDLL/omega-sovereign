@@ -1,0 +1,64 @@
+## Omega Sovereign v4.0 — Pillar [04] & [08]: Posit-Quire Dot Product, DNA4 Codec & OpenQASM 3.0 Verifier
+## Exact integer Quire accumulation without rounding drift, quaternary genome framing, and Bell gate depth.
+
+use std.io
+
+type DnaBase = enum
+    Adenine
+    Cytosine
+    Guanine
+    Thymine
+
+fn base_to_crumb(b: DnaBase) -> int
+    ensures result >= 0 and result <= 3
+    match b
+        Adenine  => 0
+        Cytosine => 1
+        Guanine  => 2
+        Thymine  => 3
+
+fn crumb_to_char(c: int) -> str
+    requires c >= 0 and c <= 3
+    match c
+        0 => "A"
+        1 => "C"
+        2 => "G"
+        _ => "T"
+
+fn posit_quire_dot(xs: [int], ys: [int]) -> int
+    requires xs.len() == ys.len()
+    var quire_acc = 0
+    var i = 0
+    while i < xs.len()
+        quire_acc += xs[i] * ys[i]
+        i += 1
+    quire_acc
+
+fn gc_content_percent(strand: [DnaBase]) -> int
+    requires strand.len() > 0
+    let gc_count = [1 for b in strand if base_to_crumb(b) == 1 or base_to_crumb(b) == 2].len()
+    (gc_count * 100) / strand.len()
+
+fn bell_pair_circuit_depth(entangle_pairs: int, include_barriers: bool) -> int
+    requires entangle_pairs >= 1 and entangle_pairs <= 64
+    let core_depth = entangle_pairs * 2 + 1
+    if include_barriers then core_depth + 1 else core_depth
+
+fn main()
+    ## Cancellation-sensitive dot product where naive IEEE-754 loses small residuals:
+    let a = [100000000, 3, -100000000, 7]
+    let b = [100000000, 5,  100000000, 2]
+    let exact = posit_quire_dot(a, b)
+    assert exact == 29, "Posit-Quire exact cancellation dot product must equal 29"
+
+    let payload = [
+        DnaBase.Adenine, DnaBase.Guanine, DnaBase.Cytosine, DnaBase.Guanine,
+        DnaBase.Cytosine, DnaBase.Thymine, DnaBase.Adenine, DnaBase.Guanine
+    ]
+    let gc_pct = gc_content_percent(payload)
+    assert gc_pct == 62, "DNA4 GC-content window check mismatch"
+    let encoded = [crumb_to_char(base_to_crumb(x)) for x in payload].join("")
+    assert encoded == "AGCGCTAG", "DNA4 quaternary roundtrip mismatch"
+
+    assert bell_pair_circuit_depth(1, true) == 4, "OpenQASM 3.0 Bell circuit depth mismatch"
+    io.println("omega-sovereign silicon_quantum_dna_codec: quire={exact} dna4=5'-{encoded}-3' gc={gc_pct}%")
