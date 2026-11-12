@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-title: "Omega Sovereign v1.1.0: 100%-Lume Multimodal AI Workstation & Native Win64 Command Center"
-message: "If you use Omega Sovereign in your research or engineering, please cite it using the metadata below."
+title: "Omega Sovereign v5.0: Flagship Full-Stack Sovereign Command Center, Binary-Assurance Studio & Multi-Target AI Workstation in 100% Native Lume v1.1.0"
+message: "If you use Omega Sovereign in your research, safety-critical engineering, or formal verification work, please cite it using the metadata below."
 type: software
 authors:
   - family-names: "Bueno"
@@ -10,13 +10,18 @@ authors:
 repository-code: "https://github.com/OmegaSoftDLL/omega-sovereign"
 url: "https://omegasoftdll.github.io/omega-sovereign/"
 license: Apache-2.0
-version: "1.1.0"
-date-released: "2026-11-08"
+version: "5.0.0"
+date-released: "2026-11-12"
 keywords:
   - lume
   - omega-sovereign
-  - win64-gui
   - formal-verification
-  - local-llm
-  - ollama
+  - translation-validation
+  - constant-time-cryptography
+  - mcdc-coverage
+  - safety-critical-2oo2d
+  - win64-pe32-gui
+  - in-weights-neural-vm
   - polyglot-ffi
+  - cyber-physical-iec62443
+  - quantum-qec

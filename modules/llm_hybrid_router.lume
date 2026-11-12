@@ -1,4 +1,4 @@
-## Omega Sovereign v4.0 — Pillar [07]: Local Multimodal LLM Hybrid Router & VRAM Budget Guard
+## Omega Sovereign v5.0 — Pillar [08]: Local Multimodal LLM Hybrid Router & VRAM Budget Guard (Lume v1.1.0)
 ## Routes local inference across Gemma 4 E2B, Ministral 3 3B Q4, and Bonsai 1.58-bit ternary engines
 ## with formal VRAM admission contracts and deterministic financial scraping verification.
 

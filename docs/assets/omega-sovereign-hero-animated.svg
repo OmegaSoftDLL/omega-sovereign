@@ -1,69 +1,96 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" width="860" height="260">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 308" width="960" height="308">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#050811"/>
-      <stop offset="50%" stop-color="#0b1528"/>
-      <stop offset="100%" stop-color="#081c24"/>
+      <stop offset="0%" stop-color="#060c18"/>
+      <stop offset="50%" stop-color="#0a1428"/>
+      <stop offset="100%" stop-color="#091a26"/>
     </linearGradient>
     <linearGradient id="top" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="35%" stop-color="#38bdf8"/>
+      <stop offset="70%" stop-color="#f59e0b"/>
       <stop offset="100%" stop-color="#a855f7"/>
     </linearGradient>
     <style>
-      .h1 { font: 800 19px 'Segoe UI', system-ui, sans-serif; fill: #f8fafc; }
-      .sub { font: 500 11.5px 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; }
-      .box-title { font: 700 13px 'Segoe UI', system-ui, sans-serif; fill: #f8fafc; }
-      .mono { font: 600 11px 'Cascadia Code', Consolas, monospace; fill: #cbd5e1; }
-      .tag { font: 700 10px 'Cascadia Code', Consolas, monospace; }
-      .flow { stroke-dasharray: 7 5; animation: dash 2.4s linear infinite; }
-      @keyframes dash { to { stroke-dashoffset: -24; } }
+      .h1 { font: 800 18.5px 'Segoe UI', system-ui, sans-serif; fill: #f8fafc; }
+      .sub { font: 600 11px 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; }
+      .box-title { font: 700 12.2px 'Segoe UI', system-ui, sans-serif; }
+      .mono { font: 600 10.3px 'Cascadia Code', Consolas, monospace; fill: #cbd5e1; }
+      .tag { font: 700 9.6px 'Cascadia Code', Consolas, monospace; }
+      .ribbon { font: 700 10.5px 'Cascadia Code', Consolas, monospace; fill: #38f5d4; }
+      .flow { stroke-dasharray: 6 4; animation: dash 2.2s linear infinite; }
+      .pulse { animation: glow 2.4s ease-in-out infinite; }
+      @keyframes dash { to { stroke-dashoffset: -20; } }
+      @keyframes glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
     </style>
   </defs>
 
-  <rect width="860" height="260" rx="14" fill="url(#bg)" stroke="#1e293b" stroke-width="1.5"/>
-  <rect x="0" y="0" width="860" height="4" rx="2" fill="url(#top)"/>
+  <rect width="960" height="308" rx="14" fill="url(#bg)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="0" y="0" width="960" height="4" rx="2" fill="url(#top)"/>
 
   <!-- Header -->
-  <text x="24" y="34" class="h1">Ω Omega Sovereign v1.1.0 — 100%-Lume Multimodal AI Workstation &amp; Native Win64 Command Center</text>
-  <text x="24" y="54" class="sub">Zero C/C++/Rust/Python Runtime · 33,792B Native PE32+ GUI + HTTP Cockpit · 6 Sovereign Pillars + Chameleon 9-Eco FFI</text>
+  <text x="22" y="32" class="h1">Ω Omega Sovereign v5.0 — Powered by Lume v1.1.0 (Edition 2026)</text>
+  <text x="22" y="51" class="sub">Zero-C Fixpoint &amp; Wheeler DDC · 50,176B Cyber-Obsidian PE32+ Studio · OmniProof-v4 · 118 [C0011] CT Kernels · 2oo2D RV32IM · 27 Targets</text>
 
-  <!-- Node 1: Native Win64 GUI &amp; Web Cockpit -->
-  <rect x="20" y="72" width="252" height="164" rx="10" fill="#091326" stroke="#10b981" stroke-width="1.4"/>
-  <text x="34" y="96" class="box-title" fill="#10b981">1. Native Win64 GUI &amp; Web</text>
-  <text x="34" y="118" class="mono">• OmegaSovereign_GUI.exe (33KB)</text>
-  <text x="34" y="136" class="mono">• OmegaSovereign_P33.exe (XOR)</text>
-  <text x="34" y="154" class="mono">• 4 Resizable/Scrollable Panes</text>
-  <text x="34" y="172" class="mono">• Lumi RT_ICON + Segoe UI -12</text>
-  <text x="34" y="190" class="mono">• omega_cockpit.html + WebDOM</text>
-  <rect x="34" y="204" width="224" height="20" rx="5" fill="#064e3b"/>
-  <text x="146" y="218" text-anchor="middle" class="tag" fill="#6ee7b7">PE32+ SUBSYSTEM=2 · 1366px</text>
+  <!-- Card 1: Cyber-Obsidian 4-Pane Studio -->
+  <rect x="18" y="68" width="216" height="182" rx="10" fill="#0a1428" stroke="#10b981" stroke-width="1.4"/>
+  <text x="30" y="90" class="box-title" fill="#10b981">1. Cyber-Obsidian Studio</text>
+  <text x="30" y="111" class="mono">• OmegaSovereign_GUI (50,176B)</text>
+  <text x="30" y="128" class="mono">• OmegaSovereign_P33 (XOR 178)</text>
+  <text x="30" y="145" class="mono">• @ui-layout 4-Pane 1400x780</text>
+  <text x="30" y="162" class="mono">• #060C18 / #0A1428 / #38F5D4</text>
+  <text x="30" y="179" class="mono">• WS_THICKFRAME + Lumi RT_ICON</text>
+  <text x="30" y="196" class="mono">• WebGL/HTML Live Cockpit</text>
+  <rect x="30" y="214" width="192" height="22" rx="5" fill="#064e3b"/>
+  <text x="126" y="229" text-anchor="middle" class="tag" fill="#6ee7b7">PE32+ SUBSYSTEM=2 · P33 MBA</text>
 
-  <!-- Animated Connector 1 -> 2 -->
-  <line x1="272" y1="154" x2="304" y2="154" stroke="#38bdf8" stroke-width="2.5" class="flow"/>
+  <!-- Connector 1 -> 2 -->
+  <line x1="234" y1="159" x2="254" y2="159" stroke="#38bdf8" stroke-width="2.4" class="flow"/>
 
-  <!-- Node 2: Local Hybrid LLM &amp; Silicon Router -->
-  <rect x="304" y="72" width="252" height="164" rx="10" fill="#091326" stroke="#38bdf8" stroke-width="1.4"/>
-  <text x="318" y="96" class="box-title" fill="#38bdf8">2. Local AI &amp; Silicon Router</text>
-  <text x="318" y="118" class="mono">• Ollama Local Multimodal Bus</text>
-  <text x="318" y="136" class="mono">• Gemma 4 E2B + Ministral 3 3B</text>
-  <text x="318" y="154" class="mono">• CUDA PTX 8.0 (omega_ai_kernel)</text>
-  <text x="318" y="172" class="mono">• Vulkan SPIR-V 1.6 Compute</text>
-  <text x="318" y="190" class="mono">• IEEE 1364 Verilog RTL Synth</text>
-  <rect x="318" y="204" width="224" height="20" rx="5" fill="#0c4a6e"/>
-  <text x="430" y="218" text-anchor="middle" class="tag" fill="#7dd3fc">WCET @bound(cycles) PROVEN</text>
+  <!-- Card 2: OmniProof-v4 & Binary Assurance -->
+  <rect x="254" y="68" width="216" height="182" rx="10" fill="#0a1428" stroke="#38bdf8" stroke-width="1.4"/>
+  <text x="266" y="90" class="box-title" fill="#38bdf8">2. OmniProof-v4 &amp; Assurance</text>
+  <text x="266" y="111" class="mono">• 1,682 Obligations (0 Runtime)</text>
+  <text x="266" y="128" class="mono">• QF_LIA/NIA/BV + WCET @bound</text>
+  <text x="266" y="145" class="mono">• ltv [C0010] (694) + ltv_rt</text>
+  <text x="266" y="162" class="mono">• Clean-Room lsmt .smt2 unsat</text>
+  <text x="266" y="179" class="mono">• 0/9,618 Uncovered MC/DC</text>
+  <text x="266" y="196" class="mono">• lstack @no_alloc + lcert KAT</text>
+  <rect x="266" y="214" width="192" height="22" rx="5" fill="#0c4a6e"/>
+  <text x="362" y="229" text-anchor="middle" class="tag" fill="#7dd3fc">QUALIFY PASS · 106/106 PROBES</text>
 
-  <!-- Animated Connector 2 -> 3 -->
-  <line x1="556" y1="154" x2="588" y2="154" stroke="#a855f7" stroke-width="2.5" class="flow"/>
+  <!-- Connector 2 -> 3 -->
+  <line x1="470" y1="159" x2="490" y2="159" stroke="#f59e0b" stroke-width="2.4" class="flow"/>
 
-  <!-- Node 3: QF_LIA Prover &amp; Chameleon 9-Eco Bridge -->
-  <rect x="588" y="72" width="252" height="164" rx="10" fill="#091326" stroke="#a855f7" stroke-width="1.4"/>
-  <text x="602" y="96" class="box-title" fill="#c084fc">3. QF_LIA &amp; Chameleon 9-Eco</text>
-  <text x="602" y="118" class="mono">• [I0003] unverified -&gt; verified</text>
-  <text x="602" y="136" class="mono">• C/Rust/Python DLPack Zero-Copy</text>
-  <text x="602" y="154" class="mono">• Node/Go/JVM/.NET/SQL/OpenAPI</text>
-  <text x="602" y="172" class="mono">• Perceus Zero-GC Linear Arena</text>
-  <text x="602" y="190" class="mono">• Ed25519 + ML-DSA-65 .cert</text>
-  <rect x="602" y="204" width="224" height="20" rx="5" fill="#3b0764"/>
-  <text x="714" y="218" text-anchor="middle" class="tag" fill="#e9d5ff">LUME VERIFIED ✓ · P33 SEALED</text>
+  <!-- Card 3: [C0011] CT Crypto & 2oo2D Safety -->
+  <rect x="490" y="68" width="216" height="182" rx="10" fill="#0a1428" stroke="#f59e0b" stroke-width="1.4"/>
+  <text x="502" y="90" class="box-title" fill="#fbbf24">3. [C0011] Crypto &amp; 2oo2D</text>
+  <text x="502" y="111" class="mono">• 118 @secret @no_alloc cmov</text>
+  <text x="502" y="128" class="mono">• RFC 8446 TLS 1.3 + SP800-90B</text>
+  <text x="502" y="145" class="mono">• Ed25519 X.509v3 (6k/6k Guard)</text>
+  <text x="502" y="162" class="mono">• 2oo2D x86-64 vs RV32IM Lock</text>
+  <text x="502" y="179" class="mono">• --split Multi-Board Bundle</text>
+  <text x="502" y="196" class="mono">• Perceus 4-Tier Memory (31.8x)</text>
+  <rect x="502" y="214" width="192" height="22" rx="5" fill="#451a03"/>
+  <text x="598" y="229" text-anchor="middle" class="tag" fill="#fde68a">|t| &lt;= 2.69 · 0 SILENT FAULTS</text>
+
+  <!-- Connector 3 -> 4 -->
+  <line x1="706" y1="159" x2="726" y2="159" stroke="#a855f7" stroke-width="2.4" class="flow"/>
+
+  <!-- Card 4: LumePuter, Chameleon & UFE/OTE -->
+  <rect x="726" y="68" width="216" height="182" rx="10" fill="#0a1428" stroke="#a855f7" stroke-width="1.4"/>
+  <text x="738" y="90" class="box-title" fill="#c084fc">4. LumePuter, FFI &amp; UFE/OTE</text>
+  <text x="738" y="111" class="mono">• LumePuter RV32IM .safetensors</text>
+  <text x="738" y="128" class="mono">• @neural-kernel PTX/SPIRV/RTL</text>
+  <text x="738" y="145" class="mono">• Chameleon 9-Eco [I0003] + C</text>
+  <text x="738" y="162" class="mono">• DLPack + Linux io_uring (425)</text>
+  <text x="738" y="179" class="mono">• UFE 7-DOF/Subsea + OTE Omega</text>
+  <text x="738" y="196" class="mono">• IEC 62443 · Pix/NF-e · QEC</text>
+  <rect x="738" y="214" width="192" height="22" rx="5" fill="#3b0764"/>
+  <text x="834" y="229" text-anchor="middle" class="tag" fill="#e9d5ff">27 TARGETS · 1.58-BIT + DNA4</text>
+
+  <!-- Bottom Telemetry Bar -->
+  <rect x="18" y="262" width="924" height="30" rx="7" fill="#111f3d" stroke="#1e3a5f" stroke-width="1"/>
+  <circle cx="36" cy="277" r="5" fill="#10b981" class="pulse"/>
+  <text x="50" y="281" class="ribbon">LUME v1.1.0 VERIFIED ✓ | lumec == lumec2 == lumec3 | 16 Batteries · 372 Tests · 122 Domains | Ed25519 + ML-DSA-65 Signed</text>
 </svg>

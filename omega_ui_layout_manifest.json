@@ -1,9 +1,10 @@
 {
   "ok": true,
   "engine": "@ui-layout",
-  "version": "4.0",
+  "version": "5.0",
+  "lume_edition": "2026 (v1.1.0)",
   "theme": "Cyber-Obsidian-Dark-Neon",
-  "title": "OmegaSovereign Command Center v4.0",
+  "title": "OmegaSovereign Command Center v5.0",
   "window": "1400x780",
   "usable_width": 1366,
   "left_pane_width": 443,

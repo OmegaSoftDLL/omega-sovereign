@@ -1,7 +1,9 @@
 {
   "ok": true,
-  "wave": 10,
-  "engine": "Lume-Wave10-Sentient-Triad-v4.0",
+  "edition": "2026",
+  "version": "5.0",
+  "lume_compiler": "v1.1.0",
+  "engine": "Lume-Sovereign-Triad-v5.0",
   "daemon_triad": {
     "mode": "daemon-triad",
     "p2p_gossip_latency_ms": 12,

@@ -1,0 +1,24 @@
+; Lume Translation Validator (ltv) certificate for function `dfe_calc_vnf`
+; source /root/.lume/build/ltv-work/omega_compute_core.bundled.src sha256 1cb61bf805ea9546b690cabf1d5a490a7a1a138d37af2b959f24866679390b00
+; assembly sha256 be790fff51b8a60b6fe97f1c1aee1abb95a2d9e85fb9be07445edcb3d8b194e7
+; Claim: the x86-64 code emitted by 05_codegen.src reaches `call ctfail` exactly when the lowered AST does, and
+; otherwise reaches its epilogue with the canonical word of the AST value in %rax. Division, modulo and callees
+; are uninterpreted, so the claim holds for every interpretation of them. Expected answer: unsat.
+(set-logic QF_UFNIA)
+(define-fun lume_fits63 ((n Int)) Bool (and (<= (- 4611686018427387904) n) (<= n 4611686018427387903)))
+(define-fun lume_fits64 ((n Int)) Bool (and (<= (- 9223372036854775808) n) (<= n 9223372036854775807)))
+(declare-fun lume_div (Int Int) Int)
+(declare-fun lume_mod (Int Int) Int)
+(declare-const x_vprod Int)
+(declare-const x_vdesc Int)
+(declare-const x_vfrete Int)
+(declare-const x_vseg Int)
+(declare-const x_voutro Int)
+(declare-const x_vipi Int)
+(define-fun trap_ast () Bool (not (and (and (and (and (and (and (and (and (and (and (not (< x_vdesc 0)) (not (< (+ (* (- 1) x_vdesc) x_vprod) 0))) (not (< (+ 100000000 (* (- 1) x_vprod)) 0))) (not (< x_vfrete 0))) (not (< (+ 100000000 (* (- 1) x_vfrete)) 0))) (not (< x_vseg 0))) (not (< (+ 100000000 (* (- 1) x_vseg)) 0))) (not (< x_voutro 0))) (not (< (+ 100000000 (* (- 1) x_voutro)) 0))) (not (< x_vipi 0))) (not (< (+ 100000000 (* (- 1) x_vipi)) 0)))))
+(define-fun trap_x86 () Bool (or (< x_vdesc 0) (or (and (not (< x_vdesc 0)) (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (or (and (not (< x_vdesc 0)) (and (not (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (< (+ 100000000 (* (- 1) x_vprod)) 0))) (or (and (not (< x_vdesc 0)) (and (not (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (and (not (< (+ 100000000 (* (- 1) x_vprod)) 0)) (< x_vfrete 0)))) (or (and (not (< x_vdesc 0)) (and (not (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (and (not (< (+ 100000000 (* (- 1) x_vprod)) 0)) (and (not (< x_vfrete 0)) (< (+ 100000000 (* (- 1) x_vfrete)) 0))))) (or (and (not (< x_vdesc 0)) (and (not (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (and (not (< (+ 100000000 (* (- 1) x_vprod)) 0)) (and (not (< x_vfrete 0)) (and (not (< (+ 100000000 (* (- 1) x_vfrete)) 0)) (< x_vseg 0)))))) (or (and (not (< x_vdesc 0)) (and (not (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (and (not (< (+ 100000000 (* (- 1) x_vprod)) 0)) (and (not (< x_vfrete 0)) (and (not (< (+ 100000000 (* (- 1) x_vfrete)) 0)) (and (not (< x_vseg 0)) (< (+ 100000000 (* (- 1) x_vseg)) 0))))))) (or (and (not (< x_vdesc 0)) (and (not (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (and (not (< (+ 100000000 (* (- 1) x_vprod)) 0)) (and (not (< x_vfrete 0)) (and (not (< (+ 100000000 (* (- 1) x_vfrete)) 0)) (and (not (< x_vseg 0)) (and (not (< (+ 100000000 (* (- 1) x_vseg)) 0)) (< x_voutro 0)))))))) (or (and (not (< x_vdesc 0)) (and (not (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (and (not (< (+ 100000000 (* (- 1) x_vprod)) 0)) (and (not (< x_vfrete 0)) (and (not (< (+ 100000000 (* (- 1) x_vfrete)) 0)) (and (not (< x_vseg 0)) (and (not (< (+ 100000000 (* (- 1) x_vseg)) 0)) (and (not (< x_voutro 0)) (< (+ 100000000 (* (- 1) x_voutro)) 0))))))))) (or (and (not (< x_vdesc 0)) (and (not (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (and (not (< (+ 100000000 (* (- 1) x_vprod)) 0)) (and (not (< x_vfrete 0)) (and (not (< (+ 100000000 (* (- 1) x_vfrete)) 0)) (and (not (< x_vseg 0)) (and (not (< (+ 100000000 (* (- 1) x_vseg)) 0)) (and (not (< x_voutro 0)) (and (not (< (+ 100000000 (* (- 1) x_voutro)) 0)) (< x_vipi 0)))))))))) (and (not (< x_vdesc 0)) (and (not (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (and (not (< (+ 100000000 (* (- 1) x_vprod)) 0)) (and (not (< x_vfrete 0)) (and (not (< (+ 100000000 (* (- 1) x_vfrete)) 0)) (and (not (< x_vseg 0)) (and (not (< (+ 100000000 (* (- 1) x_vseg)) 0)) (and (not (< x_voutro 0)) (and (not (< (+ 100000000 (* (- 1) x_voutro)) 0)) (and (not (< x_vipi 0)) (< (+ 100000000 (* (- 1) x_vipi)) 0))))))))))))))))))))))
+(define-fun ret_x86 () Bool (and (not (< x_vdesc 0)) (and (not (< (+ (* (- 1) x_vdesc) x_vprod) 0)) (and (not (< (+ 100000000 (* (- 1) x_vprod)) 0)) (and (not (< x_vfrete 0)) (and (not (< (+ 100000000 (* (- 1) x_vfrete)) 0)) (and (not (< x_vseg 0)) (and (not (< (+ 100000000 (* (- 1) x_vseg)) 0)) (and (not (< x_voutro 0)) (and (not (< (+ 100000000 (* (- 1) x_voutro)) 0)) (and (not (< x_vipi 0)) (not (< (+ 100000000 (* (- 1) x_vipi)) 0)))))))))))))
+(define-fun val_ast () Int (+ (* (- 1) x_vdesc) (+ x_vfrete (+ x_vipi (+ x_voutro (+ x_vprod x_vseg))))))
+(define-fun val_x86 () Int (+ (* (- 1) x_vdesc) (+ x_vfrete (+ x_vipi (+ x_voutro (+ x_vprod x_vseg))))))
+(assert (not (and (= trap_ast trap_x86) (=> (not trap_ast) (and ret_x86 (= val_ast val_x86))))))
+(check-sat)

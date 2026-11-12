@@ -1,0 +1,134 @@
+## ============================================================================
+## OmegaSovereign Compute Core v5.0 — Binary-Assurance & Multi-Target Kernel Suite
+## Powered by Lume v1.1.0 | Verified @no_alloc, @secret [C0011] CT, 2oo2D & Multi-Target
+## ============================================================================
+
+## [C0011] Constant-Time Branch-Free 32-Bit Word Multiplexer (@secret + @no_alloc)
+@secret
+@no_alloc
+fn ct_select_u32_word(sel_bit: int, word_a: int, word_b: int) -> int
+= ct_select(0 - bit_and(sel_bit, 1), bit_and(word_a, 4294967295), bit_and(word_b, 4294967295))
+
+## [C0011] Constant-Time Masked Authentication Tag Equality Kernel (@secret + @no_alloc)
+@secret
+@no_alloc
+fn ct_tag_eq_mask(tag_a: int, tag_b: int, nonce_mask: int) -> int
+= ct_eq(bit_xor(bit_and(tag_a, 4294967295) +% bit_and(nonce_mask, 65535), bit_and(tag_b, 4294967295) +% bit_and(nonce_mask, 65535)), 0)
+
+## SEFAZ NF-e / NFC-e Net Invoice Total (vNF) Kernel
+@no_alloc
+@bound(cycles: 32)
+fn dfe_calc_vnf(vprod: int, vdesc: int, vfrete: int, vseg: int, voutro: int, vipi: int) -> int / pure
+  requires vdesc >= 0 and vprod >= vdesc and vprod <= 100000000 and vfrete >= 0 and vfrete <= 100000000 and vseg >= 0 and vseg <= 100000000 and voutro >= 0 and voutro <= 100000000 and vipi >= 0 and vipi <= 100000000
+  ensures result >= 0 and result <= 500000000
+= (vprod - vdesc) + vfrete + vseg + voutro + vipi
+
+## BACEN Pix CobV Atomic Settlement Kernel
+@no_alloc
+@bound(cycles: 36)
+fn pix_cobv_settle(principal_cents: int, fine_cents: int, interest_cents: int, discount_cents: int, paid_cents: int) -> int / pure
+  requires principal_cents >= 1 and principal_cents <= 100000000 and fine_cents >= 0 and fine_cents <= 10000000 and interest_cents >= 0 and interest_cents <= 10000000 and discount_cents >= 0 and discount_cents <= principal_cents and paid_cents >= 0 and paid_cents <= 200000000
+  ensures result >= 0 and result <= paid_cents
+= let due = (principal_cents - discount_cents) + fine_cents + interest_cents in
+  if paid_cents >= due then due else 0
+
+## AEGIS Zero-Breach Endpoint Spyware Triage Verdict Kernel
+@no_alloc
+@bound(cycles: 32)
+fn zbt_triage_verdict(pegasus_hits: int, predator_hits: int, candiru_hits: int, stalker_hits: int) -> int / pure
+  requires pegasus_hits >= 0 and pegasus_hits <= 6 and predator_hits >= 0 and predator_hits <= 6 and candiru_hits >= 0 and candiru_hits <= 6 and stalker_hits >= 0 and stalker_hits <= 6
+  ensures result >= 0 and result <= 2
+= if pegasus_hits + predator_hits + candiru_hits > 0 then 2 else if stalker_hits > 0 then 1 else 0
+
+## BitNet 1.58-Bit 3-Lane Ternary Dot-Product + ReLU Activation Kernel
+@no_alloc
+@bound(cycles: 96)
+fn llm_ternary_dot3_relu(x0: int, w0: int, x1: int, w1: int, x2: int, w2: int) -> int / pure
+  requires x0 >= 0 - 1000000 and x0 <= 1000000 and w0 >= 0 - 1 and w0 <= 1 and x1 >= 0 - 1000000 and x1 <= 1000000 and w1 >= 0 - 1 and w1 <= 1 and x2 >= 0 - 1000000 and x2 <= 1000000 and w2 >= 0 - 1 and w2 <= 1
+  ensures result >= 0 and result <= 3000000
+= let t0 = if w0 == 1 then x0 else if w0 == 0 - 1 then 0 - x0 else 0 in
+  let t1 = if w1 == 1 then x1 else if w1 == 0 - 1 then 0 - x1 else 0 in
+  let t2 = if w2 == 1 then x2 else if w2 == 0 - 1 then 0 - x2 else 0 in
+  let raw = t0 + t1 + t2 in
+  if raw > 0 then raw else 0
+
+## OTE Singularity Boundary Omega (tau_max = T_m / 4) Stability Margin Kernel
+@no_alloc
+@bound(cycles: 28)
+fn ote_singularity_margin_ms(tau_ms: int, tm_ms: int) -> int / pure
+  requires tau_ms >= 0 and tau_ms <= 1000000 and tm_ms >= 4 and tm_ms <= 4000000
+  ensures result >= 0 and result <= tm_ms
+= if tm_ms > 4 * tau_ms then tm_ms - 4 * tau_ms else 0
+
+## Surface-Code [[d^2, 1, d]] Quantum Error-Correction Distance Verdict Kernel
+@no_alloc
+@bound(cycles: 24)
+fn qec_surface_code_distance_ok(code_distance: int, physical_errors: int) -> int / pure
+  requires code_distance >= 3 and code_distance <= 1001 and physical_errors >= 0 and physical_errors <= 1000
+  ensures result >= 0 and result <= 1
+= if 2 * physical_errors + 1 <= code_distance then 1 else 0
+
+## Universal Formal Laws (QF_LIA)
+law dfe_zero_addons_exact_law(vprod: int, vdesc: int) =
+  if vdesc >= 0 and vprod >= vdesc and vprod <= 100000000 then dfe_calc_vnf(vprod, vdesc, 0, 0, 0, 0) == vprod - vdesc else 1 == 1
+
+law pix_underpaid_zero_settlement_law(principal_cents: int) =
+  if principal_cents >= 1 and principal_cents <= 100000000 then pix_cobv_settle(principal_cents, 0, 0, 0, principal_cents - 1) == 0 else 1 == 1
+
+law ote_singularity_boundary_zero_law(tau_ms: int) =
+  if tau_ms >= 1 and tau_ms <= 1000000 then ote_singularity_margin_ms(tau_ms, 4 * tau_ms) == 0 else 1 == 1
+
+law qec_distance_nine_single_fault_law(physical_errors: int) =
+  if physical_errors >= 0 and physical_errors <= 4 then qec_surface_code_distance_ok(9, physical_errors) == 1 else 1 == 1
+
+## Unit & Boundary Condition Test Suite
+fn test_ct_select_and_tag_kernels() =
+  ct_select_u32_word(1, 305419896, 2271560481) == 305419896 and
+  ct_select_u32_word(0, 305419896, 2271560481) == 2271560481 and
+  ct_tag_eq_mask(3735928559, 3735928559, 43981) == 1 and
+  ct_tag_eq_mask(3735928559, 3735928558, 43981) == 0
+
+fn test_dfe_and_pix_settlement_kernels() =
+  dfe_calc_vnf(100000, 5000, 8000, 1500, 0, 15000) == 119500 and
+  dfe_calc_vnf(5000, 5000, 0, 0, 0, 0) == 0 and
+  pix_cobv_settle(45000, 900, 450, 0, 46350) == 46350 and
+  pix_cobv_settle(45000, 900, 450, 0, 46349) == 0 and
+  pix_cobv_settle(10000, 0, 0, 10000, 0) == 0
+
+fn test_zbt_and_ternary_relu_kernels() =
+  zbt_triage_verdict(1, 0, 0, 1) == 2 and
+  zbt_triage_verdict(0, 1, 0, 0) == 2 and
+  zbt_triage_verdict(0, 0, 1, 0) == 2 and
+  zbt_triage_verdict(0, 0, 0, 2) == 1 and
+  zbt_triage_verdict(0, 0, 0, 0) == 0 and
+  llm_ternary_dot3_relu(120, 1, 45, 0 - 1, 40, 1) == 115 and
+  llm_ternary_dot3_relu(20, 0 - 1, 30, 0, 10, 1) == 0
+
+fn test_ote_and_qec_kernels() =
+  ote_singularity_margin_ms(40, 240) == 80 and
+  ote_singularity_margin_ms(60, 240) == 0 and
+  ote_singularity_margin_ms(75, 240) == 0 and
+  qec_surface_code_distance_ok(9, 4) == 1 and
+  qec_surface_code_distance_ok(9, 5) == 0 and
+  qec_surface_code_distance_ok(3, 1) == 1 and
+  qec_surface_code_distance_ok(3, 2) == 0
+
+fn lsa9_hv(c) = let o = ord(c) in if o >= 48 and o <= 57 then o - 48 else if o >= 65 and o <= 70 then o - 55 else 0 - 1
+fn lsa9_word(s, i, k, acc) = if k == 0 then acc else let d = lsa9_hv(at(s, i)) in if d < 0 then 0 - 1 else lsa9_word(s, i + 1, k - 1, acc * 16 + d)
+fn lsa9_bit(c, k) = if k == 0 then c else lsa9_bit(bit_xor(c / 2, if c % 2 == 1 then 3988292384 else 0), k - 1)
+fn lsa9_crc(s, i, e, c) = if i >= e then bit_xor(c, 4294967295) else lsa9_crc(s, i + 1, e, lsa9_bit(bit_xor(c, ord(at(s, i))), 8))
+fn lsa9_h1(n) = at("0123456789ABCDEF", n)
+fn lsa9_hex8(w) = lsa9_h1(w / 268435456 % 16) + lsa9_h1(w / 16777216 % 16) + lsa9_h1(w / 1048576 % 16) + lsa9_h1(w / 65536 % 16) + lsa9_h1(w / 4096 % 16) + lsa9_h1(w / 256 % 16) + lsa9_h1(w / 16 % 16) + lsa9_h1(w % 16)
+fn lsa9_s32(u) = if u >= 2147483648 then u - 4294967296 else u
+fn lsa9_u32(v) = if v < 0 then v + 4294967296 else v
+fn lsa9_w(s, i) = lsa9_word(s, 8 * i, 8, 0)
+fn lsa9_fmt(s, i) = if i >= 15 then 1 else if lsa9_w(s, i) < 0 then 0 else lsa9_fmt(s, i + 1)
+fn lsa9_wellformed(s) = if count(s) == 121 and at(s, 120) == "\n" then lsa9_fmt(s, 0) else 0
+fn lsa9_echo(s, ok, i, n) = if i >= n then "" else (if ok == 1 then lsa9_hex8(lsa9_w(s, i)) else "00000000") + lsa9_echo(s, ok, i + 1, n)
+fn lsa9_frame(body) = body + lsa9_hex8(lsa9_crc(body, 0, count(body), 4294967295)) + "\n"
+fn lsa9_resp(s, ok, status, cause, result) = lsa9_frame("4C53525300000001" + lsa9_echo(s, ok, 2, 3) + "8EA70FEB22B96351A0000001" + lsa9_echo(s, ok, 5, 14) + lsa9_hex8(status) + lsa9_hex8(cause) + lsa9_hex8(result) + "00000000")
+fn lsa9_bad(s) = if lsa9_wellformed(s) != 1 then 6 else if lsa9_crc(s, 0, 112, 4294967295) != lsa9_w(s, 14) then 5 else if lsa9_w(s, 0) != 1280528977 then 1 else if lsa9_w(s, 1) != 1 then 2 else if lsa9_hex8(lsa9_w(s, 3)) + lsa9_hex8(lsa9_w(s, 4)) != "8EA70FEB22B96351" then 3 else if lsa9_w(s, 5) != 6 then 4 else 0
+fn lsa9_call(s) = dfe_calc_vnf(lsa9_s32(lsa9_w(s, 6)), lsa9_s32(lsa9_w(s, 7)), lsa9_s32(lsa9_w(s, 8)), lsa9_s32(lsa9_w(s, 9)), lsa9_s32(lsa9_w(s, 10)), lsa9_s32(lsa9_w(s, 11)))
+fn lsa9_ok(s) = let r = lsa9_call(s) in if r < 0 - 2147483648 or r > 2147483647 then lsa9_resp(s, 1, 1, 6, 0) else lsa9_resp(s, 1, 0, 0, lsa9_u32(r))
+fn lsa9_main(s) = let c = lsa9_bad(s) in let w = fs_write_sync("/dev/stdout", if c != 0 then lsa9_resp(s, lsa9_wellformed(s), 2, c, 0) else lsa9_ok(s)) in os_exit(0)
+print lsa9_main(readall())

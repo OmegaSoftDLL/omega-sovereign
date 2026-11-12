@@ -1,0 +1,33 @@
+# ============================================================================
+# Omega Sovereign v5.0 — Official Lume v1.1.0 Package Manifest (Edition 2026)
+# Sovereign Enterprise, Financial, Cyber-Physical, Neural & Quantum Platform
+# ============================================================================
+
+[package]
+name = "omega-sovereign"
+version = "5.0.0"
+edition = "2026"
+description = "Complete 12-Pillar Sovereign Enterprise, FinTech, Cyber-Physical, Neural & Quantum Platform in 100% Pure Lume v1.1.0"
+license = "MIT"
+repository = "https://github.com/OmegaSoftDLL/omega-sovereign"
+entry = "omega_sovereign.lume"
+core_entry = "omega_sovereign.src"
+compute_core = "omega_compute_core.src"
+
+[capabilities]
+allow = ["io", "ffi"]
+
+[security]
+protect = "max"
+
+[modules]
+ui_cyber_layout = "modules/ui_cyber_layout.lume"
+fintech_pix_nfe_ledger = "modules/fintech_pix_nfe_ledger.lume"
+llm_hybrid_router = "modules/llm_hybrid_router.lume"
+chameleon_polyglot_guard = "modules/chameleon_polyglot_guard.lume"
+silicon_quantum_dna_codec = "modules/silicon_quantum_dna_codec.lume"
+triad_safety_envelope = "modules/triad_safety_envelope.lume"
+constant_time_crypto_x509 = "modules/constant_time_crypto_x509.lume"
+cyber_physical_ufe_ote_mesh = "modules/cyber_physical_ufe_ote_mesh.lume"
+
+[dependencies]

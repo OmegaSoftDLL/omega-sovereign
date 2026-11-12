@@ -1,0 +1,103 @@
+## Omega Sovereign v5.0 — Pillar [09]: Cyber-Physical UFE 7-DOF Robotics, OTE Singularity Boundary & IEC 62443 / Omega-Mesh Verifier (Lume v1.1.0)
+## 7-DOF damped-least-squares robotics kinematics guard, Singularity Boundary Omega (tau_max = T_m / 4) stability zone classifier,
+## IEC 62443 Purdue L0..L4 + L3.5 DMZ conduit verifier, and Omega-Mesh Raft quorum check.
+
+use std.io
+
+type StabilityZone = enum
+    NominalGreen
+    PreSingularityAmber
+    OmegaBoundaryCrossed
+
+type PurdueZone = enum
+    L0FieldSensors
+    L1PlcSafetyRtu
+    L2ScadaSupervisory
+    L3SiteOperations
+    L35IndustrialDmz
+    L4EnterpriseIt
+
+type CyberPhysicalError = error
+    PurdueDirectBypassForbidden(src_rank: int, dst_rank: int)
+    UnencryptedOtConduit
+    OmegaSingularityTrip(tau_ms: int, tau_max_ms: int)
+
+## 7-DOF Damped-Least-Squares (DLS) Jacobian inverse denominator: sigma_min^2 + lambda^2 >= lambda^2 > 0
+fn ufe_dls_safe_denominator_milli(sigma_sq_milli: int, lambda_sq_milli: int) -> int
+    requires sigma_sq_milli >= 0 and lambda_sq_milli >= 1
+    ensures result >= lambda_sq_milli
+    sigma_sq_milli + lambda_sq_milli
+
+## Singularity Boundary Omega (tau_max = T_m / 4): classifies loop delay tau_ms against mechanical time constant tm_ms
+fn classify_ote_singularity_zone(tau_ms: int, tm_ms: int) -> StabilityZone
+    requires tau_ms >= 0 and tm_ms >= 4
+    if 4 * tau_ms >= tm_ms
+        StabilityZone.OmegaBoundaryCrossed
+    elif 8 * tau_ms >= tm_ms
+        StabilityZone.PreSingularityAmber
+    else
+        StabilityZone.NominalGreen
+
+fn purdue_rank(z: PurdueZone) -> int
+    ensures result >= 0 and result <= 5
+    match z
+        L0FieldSensors     => 0
+        L1PlcSafetyRtu     => 1
+        L2ScadaSupervisory => 2
+        L3SiteOperations   => 3
+        L35IndustrialDmz   => 4
+        L4EnterpriseIt     => 5
+
+## IEC 62443 Purdue Conduit Verifier: IT (L4) may never reach OT (L0..L3) directly without traversing L3.5 DMZ + TLS 1.3
+fn verify_iec62443_purdue_conduit(
+    src_zone: PurdueZone,
+    dst_zone: PurdueZone,
+    via_dmz_l35: bool,
+    tls13_authenticated: bool
+) -> bool ! CyberPhysicalError
+    if not tls13_authenticated
+        fail CyberPhysicalError.UnencryptedOtConduit
+    let s = purdue_rank(src_zone)
+    let d = purdue_rank(dst_zone)
+    let diff = if s >= d then s - d else d - s
+    if diff > 1 and not via_dmz_l35
+        fail CyberPhysicalError.PurdueDirectBypassForbidden(src_rank: s, dst_rank: d)
+    if (s == 5 and d <= 2) or (d == 5 and s <= 2)
+        fail CyberPhysicalError.PurdueDirectBypassForbidden(src_rank: s, dst_rank: d)
+    true
+
+## Omega-Mesh Raft Majority Quorum & Monotonic Term Guard
+fn verify_omega_mesh_raft_quorum(total_voters: int, ack_voters: int, leader_term: int, max_peer_term: int) -> bool
+    requires total_voters >= 3 and ack_voters >= 0 and ack_voters <= total_voters and leader_term >= 1 and max_peer_term >= 1
+    leader_term >= max_peer_term and ack_voters * 2 > total_voters
+
+fn zone_label(z: StabilityZone) -> str
+    match z
+        NominalGreen         => "GREEN_NOMINAL"
+        PreSingularityAmber  => "AMBER_PRE_SINGULARITY"
+        OmegaBoundaryCrossed => "RED_OMEGA_CROSSED"
+
+fn main()
+    let dls_denom = ufe_dls_safe_denominator_milli(0, 25)
+    assert dls_denom == 25, "7-DOF DLS kinematic singularity must stay bounded by lambda^2=25"
+
+    let z_green = classify_ote_singularity_zone(20, 240)
+    let z_amber = classify_ote_singularity_zone(40, 240)
+    let z_omega = classify_ote_singularity_zone(60, 240)
+    assert zone_label(z_green) == "GREEN_NOMINAL", "20ms vs 240ms must be GREEN_NOMINAL"
+    assert zone_label(z_amber) == "AMBER_PRE_SINGULARITY", "40ms vs 240ms must be AMBER_PRE_SINGULARITY"
+    assert zone_label(z_omega) == "RED_OMEGA_CROSSED", "60ms == T_m/4 (240/4) must trigger RED_OMEGA_CROSSED"
+
+    let dmz_ok = verify_iec62443_purdue_conduit(PurdueZone.L4EnterpriseIt, PurdueZone.L35IndustrialDmz, true, true) catch |_| false
+    assert dmz_ok, "L4 -> L3.5 DMZ conduit over TLS 1.3 must pass"
+
+    let bypass_blocked = match verify_iec62443_purdue_conduit(PurdueZone.L4EnterpriseIt, PurdueZone.L1PlcSafetyRtu, false, true)
+        ok(_)                                     => false
+        err(PurdueDirectBypassForbidden(sr, dr))  => sr == 5 and dr == 1
+        err(_)                                    => false
+    assert bypass_blocked, "IEC 62443 must reject direct L4 IT -> L1 PLC conduit bypass"
+
+    assert verify_omega_mesh_raft_quorum(5, 3, 14, 14), "3/5 Raft quorum at current term must commit"
+    assert not verify_omega_mesh_raft_quorum(5, 2, 14, 14), "2/5 Raft minority must not commit"
+    assert not verify_omega_mesh_raft_quorum(5, 4, 13, 14), "stale Raft leader term must not commit"
+    io.println("omega-sovereign cyber_physical_ufe_ote_mesh: 7-DOF DLS={dls_denom} OTE={zone_label(z_green)} IEC62443+Raft verified")

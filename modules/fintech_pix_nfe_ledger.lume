@@ -1,4 +1,4 @@
-## Omega Sovereign v4.0 — Pillar [05]: Sovereign Brazilian FinTech, Pix CobV & SEFAZ NF-e DIFAL Engine
+## Omega Sovereign v5.0 — Pillar [10]: Sovereign Brazilian FinTech, Pix CobV & SEFAZ NF-e DIFAL Engine (Lume v1.1.0)
 ## Exact decimal(14, 2) double-entry conservation, BACEN Pix CobV settlement, and CNPJ Modulo-11 check digits.
 
 use std.io

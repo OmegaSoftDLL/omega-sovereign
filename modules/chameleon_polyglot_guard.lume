@@ -1,4 +1,4 @@
-## Omega Sovereign v4.0 — Pillar [04] & [06]: Universal Chameleon 9-Ecosystem [I0003] Boundary Verifier
+## Omega Sovereign v5.0 — Pillar [06]: Universal Chameleon 9-Ecosystem [I0003] Boundary Verifier (Lume v1.1.0)
 ## Enforces zero-copy alignment, non-null pointer invariants, and bounded tensor strides before crossing FFI.
 
 use std.io

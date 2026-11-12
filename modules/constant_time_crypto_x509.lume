@@ -1,0 +1,128 @@
+## Omega Sovereign v5.0 — Pillar [04]: Constant-Time Cryptography, NIST SP 800-90B Entropy & Ed25519 X.509v3 Verifier (Lume v1.1.0)
+## Branch-free constant-time mask selection, NIST SP 800-90B repetition/adaptive-proportion entropy health checks,
+## and Ed25519 X.509v3 certificate validity-window & BasicConstraints pathLen verification.
+
+use std.io
+
+type EntropyStatus = enum
+    HealthyPass
+    FailedRepetitionCount
+    FailedAdaptiveProportion
+
+type X509Cert = record
+    subject_cn:      str
+    issuer_cn:       str
+    not_before:      int
+    not_after:       int
+    is_ca:           bool
+    path_len_limit:  int
+    ed25519_sig_ok:  bool
+    invariant not_after >= not_before
+    invariant path_len_limit >= 0
+
+type CryptoVerifyError = error
+    StuckEntropyRun(max_run: int, cutoff: int)
+    SkewedEntropyWindow(modal_hits: int, cutoff: int)
+    CertificateExpiredOrNotYetValid(now_epoch: int)
+    NonCaIssuer(issuer: str)
+    PathLenExceeded(depth: int, limit: int)
+    InvalidEd25519Signature(subject: str)
+
+## Branch-free arithmetic mask multiplexer: sel_bit in {0, 1}, zero secret-dependent control flow
+fn ct_select_masked(sel_bit: int, word_a: int, word_b: int) -> int
+    requires sel_bit >= 0 and sel_bit <= 1 and word_a >= 0 and word_b >= 0
+    ensures result >= 0
+    sel_bit * word_a + (1 - sel_bit) * word_b
+
+## Constant-time fixed-length authentication tag accumulator (accumulates absolute byte deltas across all positions)
+fn ct_tags_equal(tag_a: [int], tag_b: [int]) -> bool
+    requires tag_a.len() == tag_b.len() and tag_a.len() > 0
+    var diff_acc = 0
+    var i = 0
+    while i < tag_a.len()
+        let d = tag_a[i] - tag_b[i]
+        let sq = d * d
+        diff_acc += sq
+        i += 1
+    diff_acc == 0
+
+## NIST SP 800-90B Section 4.4 Repetition Count Test (RCT) & Adaptive Proportion Test (APT)
+fn verify_nist_sp800_90b_entropy(samples: [int], rct_cutoff: int, apt_cutoff: int) -> EntropyStatus ! CryptoVerifyError
+    requires samples.len() >= 8 and rct_cutoff >= 2 and apt_cutoff >= 2
+    var cur_run = 1
+    var max_run = 1
+    var i = 1
+    while i < samples.len()
+        if samples[i] == samples[i - 1]
+            cur_run += 1
+            if cur_run > max_run
+                max_run = cur_run
+        else
+            cur_run = 1
+        i += 1
+    if max_run >= rct_cutoff
+        fail CryptoVerifyError.StuckEntropyRun(max_run: max_run, cutoff: rct_cutoff)
+
+    let lead_symbol = samples[0]
+    let lead_hits = [1 for b in samples if b == lead_symbol].len()
+    if lead_hits >= apt_cutoff
+        fail CryptoVerifyError.SkewedEntropyWindow(modal_hits: lead_hits, cutoff: apt_cutoff)
+    EntropyStatus.HealthyPass
+
+## RFC 5280 / RFC 8410 Ed25519 X.509v3 3-Tier Chain Verifier (Root -> Intermediate CA -> Leaf)
+fn verify_ed25519_x509_chain(leaf: X509Cert, inter_ca: X509Cert, root_ca: X509Cert, now_epoch: int) -> bool ! CryptoVerifyError
+    requires now_epoch > 0
+    if not leaf.ed25519_sig_ok
+        fail CryptoVerifyError.InvalidEd25519Signature(subject: leaf.subject_cn)
+    if not inter_ca.ed25519_sig_ok
+        fail CryptoVerifyError.InvalidEd25519Signature(subject: inter_ca.subject_cn)
+    if not root_ca.ed25519_sig_ok
+        fail CryptoVerifyError.InvalidEd25519Signature(subject: root_ca.subject_cn)
+    if now_epoch < leaf.not_before or now_epoch > leaf.not_after
+        fail CryptoVerifyError.CertificateExpiredOrNotYetValid(now_epoch: now_epoch)
+    if now_epoch < inter_ca.not_before or now_epoch > inter_ca.not_after
+        fail CryptoVerifyError.CertificateExpiredOrNotYetValid(now_epoch: now_epoch)
+    if now_epoch < root_ca.not_before or now_epoch > root_ca.not_after
+        fail CryptoVerifyError.CertificateExpiredOrNotYetValid(now_epoch: now_epoch)
+    if not root_ca.is_ca
+        fail CryptoVerifyError.NonCaIssuer(issuer: root_ca.subject_cn)
+    if not inter_ca.is_ca
+        fail CryptoVerifyError.NonCaIssuer(issuer: inter_ca.subject_cn)
+    if root_ca.path_len_limit < 1
+        fail CryptoVerifyError.PathLenExceeded(depth: 1, limit: root_ca.path_len_limit)
+    leaf.issuer_cn == inter_ca.subject_cn and inter_ca.issuer_cn == root_ca.subject_cn
+
+fn main()
+    assert ct_select_masked(1, 305419896, 2271560481) == 305419896, "CT mask select bit=1 mismatch"
+    assert ct_select_masked(0, 305419896, 2271560481) == 2271560481, "CT mask select bit=0 mismatch"
+    assert ct_tags_equal([16, 32, 64, 128], [16, 32, 64, 128]), "matching Poly1305 tags must verify"
+    assert not ct_tags_equal([16, 32, 64, 128], [16, 32, 64, 129]), "1-bit tag tamper must fail"
+
+    let good_rng = [143, 29, 204, 88, 17, 251, 63, 190, 42, 115, 7, 232]
+    let rng_ok = match verify_nist_sp800_90b_entropy(good_rng, 4, 6)
+        ok(HealthyPass) => true
+        ok(_)           => false
+        err(_)          => false
+    assert rng_ok, "healthy entropy sample must pass NIST SP 800-90B RCT+APT"
+
+    let stuck_rng = [77, 77, 77, 77, 77, 12, 34, 56]
+    let rct_caught = match verify_nist_sp800_90b_entropy(stuck_rng, 4, 7)
+        ok(_)                         => false
+        err(StuckEntropyRun(run, cf)) => run == 5 and cf == 4
+        err(_)                        => false
+    assert rct_caught, "stuck CSPRNG run must fail closed under RCT"
+
+    let root = X509Cert(subject_cn: "ODSI Sovereign Root CA", issuer_cn: "ODSI Sovereign Root CA", not_before: 1700000000, not_after: 1900000000, is_ca: true, path_len_limit: 2, ed25519_sig_ok: true)
+    let inter = X509Cert(subject_cn: "ODSI Issuing CA", issuer_cn: "ODSI Sovereign Root CA", not_before: 1700000000, not_after: 1850000000, is_ca: true, path_len_limit: 0, ed25519_sig_ok: true)
+    let leaf = X509Cert(subject_cn: "tls.omega-sovereign.internal", issuer_cn: "ODSI Issuing CA", not_before: 1750000000, not_after: 1800000000, is_ca: false, path_len_limit: 0, ed25519_sig_ok: true)
+
+    let chain_valid = verify_ed25519_x509_chain(leaf, inter, root, 1794398400) catch |_| false
+    assert chain_valid, "valid Ed25519 X.509v3 chain must pass"
+
+    let tight_root = X509Cert(subject_cn: "ODSI Sovereign Root CA", issuer_cn: "ODSI Sovereign Root CA", not_before: 1700000000, not_after: 1900000000, is_ca: true, path_len_limit: 0, ed25519_sig_ok: true)
+    let pathlen_rejected = match verify_ed25519_x509_chain(leaf, inter, tight_root, 1794398400)
+        ok(_)                        => false
+        err(PathLenExceeded(d, lim)) => d == 1 and lim == 0
+        err(_)                       => false
+    assert pathlen_rejected, "BasicConstraints pathLen=0 on root must reject intermediate CA"
+    io.println("omega-sovereign constant_time_crypto_x509: CT mask + NIST SP 800-90B + Ed25519 X.509v3 verified")

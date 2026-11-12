@@ -1,6 +1,6 @@
 ## ============================================================================
-## OmegaSovereign Core v1.1.0 — Pillar 5A: Freestanding Bare-Metal CMOS RTC Kernel
-## Target: x86_64-linux-elf / .kernel (512-byte MBR + 64-bit Long Mode + Port I/O)
+## OmegaSovereign Core v5.0 — Pillar [01]: Freestanding Bare-Metal CMOS RTC Kernel
+## Powered by Lume v1.1.0 | Target: x86_64-linux-elf / .kernel (512-byte MBR + 64-bit Long Mode + Port I/O)
 ## ============================================================================
 
 @freestanding

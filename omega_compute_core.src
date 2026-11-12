@@ -1,50 +1,114 @@
-// ============================================================================
-// OmegaSovereign Compute Core v1.1.0 — Multi-Target Numeric & AI Kernel Suite
-// Compiled by Lume v1.1.0 to PE64 CLI, WASI, Web-DOM WASM, CUDA PTX, SPIR-V & Verilog RTL
-// ============================================================================
+## ============================================================================
+## OmegaSovereign Compute Core v5.0 — Binary-Assurance & Multi-Target Kernel Suite
+## Powered by Lume v1.1.0 | Verified @no_alloc, @secret [C0011] CT, 2oo2D & Multi-Target
+## ============================================================================
 
-fn dfe_calc_vnf(vprod: int, vdesc: int, vfrete: int, vseg: int, voutro: int, vipi: int) -> int
-  requires vprod >= vdesc
-  requires vprod >= 0
-  requires vdesc >= 0
-  requires vfrete >= 0
-  requires vseg >= 0
-  requires voutro >= 0
-  requires vipi >= 0
-  ensures result >= 0
-=
-  (vprod - vdesc) + vfrete + vseg + voutro + vipi
+## [C0011] Constant-Time Branch-Free 32-Bit Word Multiplexer (@secret + @no_alloc)
+@secret
+@no_alloc
+fn ct_select_u32_word(sel_bit: int, word_a: int, word_b: int) -> int
+= ct_select(0 - bit_and(sel_bit, 1), bit_and(word_a, 4294967295), bit_and(word_b, 4294967295))
 
-fn pix_cobv_settle(principal_cents: int, fine_cents: int, interest_cents: int, discount_cents: int, paid_cents: int) -> int
-  requires principal_cents > 0
-  requires fine_cents >= 0
-  requires interest_cents >= 0
-  requires discount_cents >= 0
-  requires principal_cents + fine_cents + interest_cents >= discount_cents
-  ensures result >= 0
-=
-  let due = principal_cents + fine_cents + interest_cents - discount_cents in
+## [C0011] Constant-Time Masked Authentication Tag Equality Kernel (@secret + @no_alloc)
+@secret
+@no_alloc
+fn ct_tag_eq_mask(tag_a: int, tag_b: int, nonce_mask: int) -> int
+= ct_eq(bit_xor(bit_and(tag_a, 4294967295) +% bit_and(nonce_mask, 65535), bit_and(tag_b, 4294967295) +% bit_and(nonce_mask, 65535)), 0)
+
+## SEFAZ NF-e / NFC-e Net Invoice Total (vNF) Kernel
+@no_alloc
+@bound(cycles: 32)
+fn dfe_calc_vnf(vprod: int, vdesc: int, vfrete: int, vseg: int, voutro: int, vipi: int) -> int / pure
+  requires vdesc >= 0 and vprod >= vdesc and vprod <= 100000000 and vfrete >= 0 and vfrete <= 100000000 and vseg >= 0 and vseg <= 100000000 and voutro >= 0 and voutro <= 100000000 and vipi >= 0 and vipi <= 100000000
+  ensures result >= 0 and result <= 500000000
+= (vprod - vdesc) + vfrete + vseg + voutro + vipi
+
+## BACEN Pix CobV Atomic Settlement Kernel
+@no_alloc
+@bound(cycles: 36)
+fn pix_cobv_settle(principal_cents: int, fine_cents: int, interest_cents: int, discount_cents: int, paid_cents: int) -> int / pure
+  requires principal_cents >= 1 and principal_cents <= 100000000 and fine_cents >= 0 and fine_cents <= 10000000 and interest_cents >= 0 and interest_cents <= 10000000 and discount_cents >= 0 and discount_cents <= principal_cents and paid_cents >= 0 and paid_cents <= 200000000
+  ensures result >= 0 and result <= paid_cents
+= let due = (principal_cents - discount_cents) + fine_cents + interest_cents in
   if paid_cents >= due then due else 0
 
-fn zbt_triage_verdict(pegasus_hits: int, predator_hits: int, candiru_hits: int, stalker_hits: int) -> int
-  requires pegasus_hits >= 0
-  requires predator_hits >= 0
-  requires candiru_hits >= 0
-  requires stalker_hits >= 0
-  ensures result >= 0
-  ensures result <= 2
-=
-  if pegasus_hits + predator_hits + candiru_hits > 0 then 2
-  else if stalker_hits > 0 then 1
-  else 0
+## AEGIS Zero-Breach Endpoint Spyware Triage Verdict Kernel
+@no_alloc
+@bound(cycles: 32)
+fn zbt_triage_verdict(pegasus_hits: int, predator_hits: int, candiru_hits: int, stalker_hits: int) -> int / pure
+  requires pegasus_hits >= 0 and pegasus_hits <= 6 and predator_hits >= 0 and predator_hits <= 6 and candiru_hits >= 0 and candiru_hits <= 6 and stalker_hits >= 0 and stalker_hits <= 6
+  ensures result >= 0 and result <= 2
+= if pegasus_hits + predator_hits + candiru_hits > 0 then 2 else if stalker_hits > 0 then 1 else 0
 
-fn llm_ternary_dot3_relu(x0: int, w0: int, x1: int, w1: int, x2: int, w2: int) -> int
-  ensures result >= 0
-=
-  let raw = (x0 * w0) + (x1 * w1) + (x2 * w2) in
+## BitNet 1.58-Bit 3-Lane Ternary Dot-Product + ReLU Activation Kernel
+@no_alloc
+@bound(cycles: 96)
+fn llm_ternary_dot3_relu(x0: int, w0: int, x1: int, w1: int, x2: int, w2: int) -> int / pure
+  requires x0 >= 0 - 1000000 and x0 <= 1000000 and w0 >= 0 - 1 and w0 <= 1 and x1 >= 0 - 1000000 and x1 <= 1000000 and w1 >= 0 - 1 and w1 <= 1 and x2 >= 0 - 1000000 and x2 <= 1000000 and w2 >= 0 - 1 and w2 <= 1
+  ensures result >= 0 and result <= 3000000
+= let t0 = if w0 == 1 then x0 else if w0 == 0 - 1 then 0 - x0 else 0 in
+  let t1 = if w1 == 1 then x1 else if w1 == 0 - 1 then 0 - x1 else 0 in
+  let t2 = if w2 == 1 then x2 else if w2 == 0 - 1 then 0 - x2 else 0 in
+  let raw = t0 + t1 + t2 in
   if raw > 0 then raw else 0
 
-print(dfe_calc_vnf(100000, 5000, 8000, 1500, 0, 15000))
-print(pix_cobv_settle(45000, 900, 450, 0, 46350))
-print(zbt_triage_verdict(1, 0, 0, 1))
-print(llm_ternary_dot3_relu(120, 1, 45, 0 - 1, 40, 1))
+## OTE Singularity Boundary Omega (tau_max = T_m / 4) Stability Margin Kernel
+@no_alloc
+@bound(cycles: 28)
+fn ote_singularity_margin_ms(tau_ms: int, tm_ms: int) -> int / pure
+  requires tau_ms >= 0 and tau_ms <= 1000000 and tm_ms >= 4 and tm_ms <= 4000000
+  ensures result >= 0 and result <= tm_ms
+= if tm_ms > 4 * tau_ms then tm_ms - 4 * tau_ms else 0
+
+## Surface-Code [[d^2, 1, d]] Quantum Error-Correction Distance Verdict Kernel
+@no_alloc
+@bound(cycles: 24)
+fn qec_surface_code_distance_ok(code_distance: int, physical_errors: int) -> int / pure
+  requires code_distance >= 3 and code_distance <= 1001 and physical_errors >= 0 and physical_errors <= 1000
+  ensures result >= 0 and result <= 1
+= if 2 * physical_errors + 1 <= code_distance then 1 else 0
+
+## Universal Formal Laws (QF_LIA)
+law dfe_zero_addons_exact_law(vprod: int, vdesc: int) =
+  if vdesc >= 0 and vprod >= vdesc and vprod <= 100000000 then dfe_calc_vnf(vprod, vdesc, 0, 0, 0, 0) == vprod - vdesc else 1 == 1
+
+law pix_underpaid_zero_settlement_law(principal_cents: int) =
+  if principal_cents >= 1 and principal_cents <= 100000000 then pix_cobv_settle(principal_cents, 0, 0, 0, principal_cents - 1) == 0 else 1 == 1
+
+law ote_singularity_boundary_zero_law(tau_ms: int) =
+  if tau_ms >= 1 and tau_ms <= 1000000 then ote_singularity_margin_ms(tau_ms, 4 * tau_ms) == 0 else 1 == 1
+
+law qec_distance_nine_single_fault_law(physical_errors: int) =
+  if physical_errors >= 0 and physical_errors <= 4 then qec_surface_code_distance_ok(9, physical_errors) == 1 else 1 == 1
+
+## Unit & Boundary Condition Test Suite
+fn test_ct_select_and_tag_kernels() =
+  ct_select_u32_word(1, 305419896, 2271560481) == 305419896 and
+  ct_select_u32_word(0, 305419896, 2271560481) == 2271560481 and
+  ct_tag_eq_mask(3735928559, 3735928559, 43981) == 1 and
+  ct_tag_eq_mask(3735928559, 3735928558, 43981) == 0
+
+fn test_dfe_and_pix_settlement_kernels() =
+  dfe_calc_vnf(100000, 5000, 8000, 1500, 0, 15000) == 119500 and
+  dfe_calc_vnf(5000, 5000, 0, 0, 0, 0) == 0 and
+  pix_cobv_settle(45000, 900, 450, 0, 46350) == 46350 and
+  pix_cobv_settle(45000, 900, 450, 0, 46349) == 0 and
+  pix_cobv_settle(10000, 0, 0, 10000, 0) == 0
+
+fn test_zbt_and_ternary_relu_kernels() =
+  zbt_triage_verdict(1, 0, 0, 1) == 2 and
+  zbt_triage_verdict(0, 1, 0, 0) == 2 and
+  zbt_triage_verdict(0, 0, 1, 0) == 2 and
+  zbt_triage_verdict(0, 0, 0, 2) == 1 and
+  zbt_triage_verdict(0, 0, 0, 0) == 0 and
+  llm_ternary_dot3_relu(120, 1, 45, 0 - 1, 40, 1) == 115 and
+  llm_ternary_dot3_relu(20, 0 - 1, 30, 0, 10, 1) == 0
+
+fn test_ote_and_qec_kernels() =
+  ote_singularity_margin_ms(40, 240) == 80 and
+  ote_singularity_margin_ms(60, 240) == 0 and
+  ote_singularity_margin_ms(75, 240) == 0 and
+  qec_surface_code_distance_ok(9, 4) == 1 and
+  qec_surface_code_distance_ok(9, 5) == 0 and
+  qec_surface_code_distance_ok(3, 1) == 1 and
+  qec_surface_code_distance_ok(3, 2) == 0

@@ -1,29 +1,31 @@
 <h1>
-  <img src="https://raw.githubusercontent.com/OmegaSoftDLL/omega-sovereign/main/docs/assets/omega-sovereign-badge.svg" alt="Omega Sovereign" width="76" height="76" align="left" />
-  Omega Sovereign <code>v4.0</code> — Official Wiki Home
+  <img src="https://raw.githubusercontent.com/OmegaSoftDLL/omega-sovereign/main/docs/assets/omega-sovereign-badge.svg" alt="Omega Sovereign Emblem" width="76" height="76" align="left" />
+  Omega Sovereign <code>v5.0</code> — Official Technical Wiki
 </h1>
 <br clear="left"/>
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/OmegaSoftDLL/omega-sovereign/main/docs/assets/omega-sovereign-hero-animated.svg" alt="Omega Sovereign Animated Architecture" width="100%" />
+  <img src="https://raw.githubusercontent.com/OmegaSoftDLL/omega-sovereign/main/docs/assets/omega-sovereign-hero-animated.svg" alt="Omega Sovereign v5.0 Animated Architecture" width="100%" />
 </div>
 
 ---
 
-## Welcome to Omega Sovereign `v4.0` (Cyber-Obsidian Dark Neon Studio + `@ui-layout` + Wave 10 Triad Edition)
+## Welcome to Omega Sovereign `v5.0` (100% Native Lume `v1.1.0`, Edition 2026)
 
-**Omega Sovereign `v4.0`** is built **100% in native [Lume `v1.1.0`](https://github.com/OmegaSoftDLL/Lume)** (`Zero C / Zero C++ / Zero Rust / Zero Python`), uniting:
-- **Cyber-Obsidian Dark Neon Native Win64 PE32+ GUI (`OmegaSovereign_GUI.exe` & `OmegaSovereign_P33.exe`):** Native `GDI32.dll` Dark-Mode rendering (`CreateSolidBrush`, `SetBkColor`, `SetTextColor` via `WM_CTLCOLOREDIT = 307`, `WM_CTLCOLORLISTBOX = 308`, `WM_CTLCOLORSTATIC = 312`) with `#060C18` Cyber-Obsidian frame, `#111F3D` Cyber Indigo headers (`#FFBD38` Sovereign Gold-Amber titles), `#0A1428` Deep Cyber Navy panes, `#F0FAFC` Crisp Cyber Ice-White ListBoxes (`1412694337` / `0x54340141`), and `#38F5D4` Glowing Lume Emerald-Cyan Code/Telemetry Editors (`1412698308` / `0x543410C4`).
-- **`@ui-layout` Declarative 4-Pane Geometry Engine (`omega_ui_layout_manifest.json`):** Machine-checked `QF_LIA` split-pane geometry conservation (`ui_split_conservation_law`).
-- **Formally Verified Generic Collection Invariants (`vec.src`, `decimal.src`, `stdlib/std.lume`):** `vec_clamp_index`, `vec_checked_slice_len`, `map_checked_slot`, `std_clamp`, and `vec_slice_conservation_law`.
-- **Wave 10 Sentient Triad Self-Evolution (`omega_wave10_triad_capsule.json`):** `daemon-triad` (`<100ms` P2P gossip sentinel), `hot-evolve` (E-Graph zero-downtime atomic swap), and `live-cockpit` (multimodal voice/vision/Ring-0 telemetry loop) at Episode `#3,124` (`114,226` verified laws).
-- **Universal Chameleon 9-Ecosystem Live Action (`[I0003]`) & Frontier Suite:** Live C99/C++20, Rust `cdylib`, Python DLPack, Node.js/WASM, and SQL/OpenAPI bridges + `@neural-kernel` Verilog RTL (`omega_neural_autodiff.v`) + `DNA4` Genome Storage (`omega_genome_storage.dna4`) + `OpenQASM 3.0` Quantum Bell Circuit (`omega_quantum_bell.qasm`) + `CEGIS` 0ms Self-Healing.
+**Omega Sovereign `v5.0`** is the institutional full-stack command center, post-codegen binary-assurance studio, cyber-physical OT control suite, and local multimodal AI workstation engineered **100% in pure [Lume `v1.1.0`](https://github.com/OmegaSoftDLL/Lume)** (`Zero C / Zero C++ / Zero Rust / Zero Python / Zero External Linker`).
+
+### Core Architectural Highlights
+
+- **Zero-C Fixpoint & Direct Native Win64 `PE32+` Studio (`OmegaSovereign_GUI.exe` `50,176 B` & `OmegaSovereign_P33.exe` `50,208 B`):** Synthesized directly by `omega_pe64_gui_synth.src` with native `GDI32.dll` Cyber-Obsidian Dark-Neon rendering (`#060C18` / `#0A1428` / `#111F3D` / `#38F5D4` / `#FFBD38`), 4 `WS_THICKFRAME` resizable panes governed by `ui_split_conservation_law`, embedded 32-bit BGRA **Lumi** `RT_ICON`, and `P33` `XOR k=178` + Mixed Boolean-Arithmetic binary protection.
+- **`OmniProof-v4` + Symbolic Binary Assurance (`ltv`, `ltv_rt`, `lsmt`, `lmcdc`, `lstack`):** Combines `QF_LIA` Farkas duals, `QF_NIA` square-completion, `QF_BV` bit-shifts, `@bound` WCET (`[V0002]`), `/ pure` (`[E0200]`), `@no_alloc` (`[E0210]`), and standalone `lcert --check-source` AST binding with post-codegen machine-code translation validation, `18/18` runtime helper proofs, clean-room `.smt2` `unsat` solving, **`0` uncovered Masking MC/DC conditions**, and exact static stack byte bounds.
+- **`[C0011]` Constant-Time Crypto, Ed25519 X.509v3, SP 800-90B Entropy, TLS 1.3 & `2oo2D` Clean-Room `RV32IM` Lockstep:** Branch-free `@secret @no_alloc` kernels (`cmov`, verified by `ltv` `[C0010]`), strict PKI chain validation, continuous entropy health checks, and dual-channel `x86_64` vs clean-room `RV32IM` execution (`safety_bundle/manifest.json`).
+- **9-Ecosystem Chameleon FFI (`[I0003]`), `LumePuter` `.safetensors` Neural VM, 1.58-Bit AI, IEC 62443 OT, Brazilian FinTech & Frontier Hardware:** Zero-copy bridges across 9 ecosystems, weight-compiled `RV32IM_Zba` neural execution, local multimodal routing, 7-DOF/subsea/IEC 62443 cyber-physical control, `SEFAZ NF-e` + `BACEN Pix CobV` + Alphanumeric CNPJ 2026, `CUDA PTX`, `Vulkan SPIR-V`, `Verilog RTL`, `DNA4`, `OpenQASM 3.0` + `[[9,1,3]]` QEC, and Ring-0 `omega_rtc.kernel`.
 
 ---
 
-## Wiki Directory
+## Wiki Architecture Index
 
-1. **[Win64 Native GUI Architecture (`OmegaSovereign_GUI.exe` v4.0)](Win64-Native-GUI-Architecture)** — Inside `omega_pe64_gui_synth.src`, the `33,792`-byte PE32+ Cyber-Obsidian Dark Neon GUI, `WM_CTLCOLOR*` GDI32 brushes, declarative `@ui-layout` (`ui_split_conservation_law`), Lumi `RT_ICON` resource table, and 4 resizable/scrollable panes.
-2. **[Local Multimodal LLM Router & Silicon Kernels](Local-LLM-and-Silicon-Kernels)** — Orchestrating local `Ollama` (`Gemma 4 E2B` + `Ministral 3 3B`), CUDA PTX 8.0, Vulkan SPIR-V 1.6, `@neural-kernel` Verilog RTL, `DNA4`, and `OpenQASM 3.0`.
-3. **[Universal Chameleon 9-Eco Bridge & P33 Shield](Chameleon-Polyglot-and-P33)** — Pillar 6 `[I0003]` polyglot verification, Wave 10 Sentient Triad (`daemon-triad`, `hot-evolve`, `live-cockpit`), verified collection invariants (`vec_clamp_index`, `map_checked_slot`), and `OmegaSovereign_P33.exe` (`XOR k=178` + MBA prologue).
-4. **[Guia Completo em Portugues (PT-BR)](Guia-Completo-PT-BR)** — Documentacao oficial completa do Omega Sovereign em Portugues.
+1. **[Win64 Native GUI Architecture (`OmegaSovereign_GUI.exe` `50,176 B` & `OmegaSovereign_P33.exe` `50,208 B`)](Win64-Native-GUI-Architecture)** — Inside `omega_pe64_gui_synth.src`, the `50,176`-byte PE32+ section map, `WM_CTLCOLOR*` `GDI32` dark-neon brushes, declarative `@ui-layout` conservation, verified `Vec`/`Map`/`std_clamp` collections, and the Sovereign Triad sentinel (`omega_sovereign_triad_capsule.json`).
+2. **[Local Multimodal LLM Router, `LumePuter` `.safetensors` & Silicon/Quantum Kernels](Local-LLM-and-Silicon-Kernels)** — Weight-compiled `LumePuter` `RV32IM_Zba` `.safetensors` cartridges, 3-tier local 1.58-bit / Q4 inference (`Bonsai`, `Gemma 4 E2B`, `Ministral 3 3B`), `CUDA PTX`, `Vulkan SPIR-V`, `@neural-kernel` `Verilog RTL`, `DNA4`, `OpenQASM 3.0` + `[[9,1,3]]` QEC, and Ring-0 `omega_rtc.kernel`.
+3. **[Universal Chameleon 9-Ecosystem FFI, `[C0011]` Crypto, `2oo2D` Lockstep & P33 Shield](Chameleon-Polyglot-and-P33)** — `[I0003]` polyglot boundary proofs, C `--preprocess` & Linux `io_uring`, `[C0011]`/`[C0010]` constant-time cryptography, X.509v3 & TLS 1.3, `2oo2D` clean-room `RV32IM` safety envelope, IEC 62443 OT & Brazilian FinTech, and `OmegaSovereign_P33.exe`.
+4. **[Guia Institucional Completo em Português (`PT-BR`)](Guia-Completo-PT-BR)** — Manual técnico completo do Omega Sovereign `v5.0` e dos 12 Pilares Soberanos da Lume `v1.1.0` em Português.

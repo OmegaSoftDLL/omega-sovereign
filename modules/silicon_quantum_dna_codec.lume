@@ -1,4 +1,4 @@
-## Omega Sovereign v4.0 — Pillar [04] & [08]: Posit-Quire Dot Product, DNA4 Codec & OpenQASM 3.0 Verifier
+## Omega Sovereign v5.0 — Pillar [07] & [11]: Posit-Quire Dot Product, DNA4 Codec & OpenQASM 3.0 Verifier (Lume v1.1.0)
 ## Exact integer Quire accumulation without rounding drift, quaternary genome framing, and Bell gate depth.
 
 use std.io

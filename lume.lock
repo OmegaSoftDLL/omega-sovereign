@@ -1,0 +1,18 @@
+# lume.lock — deterministic content-addressed lockfile (P26, P32)
+version = 1
+manifest = {"name":"omega-sovereign","version":"5.0.0","edition":"2026","capabilities":"ffi","protect":"max"}
+manifest_sha256 = "9f1ea61e450062cac74596de48333020eb61b839c5c9bf38f5f8d82cda593144"
+module "modules/chameleon_polyglot_guard.lume" sha256 = "d5f792371054935c4ac21cfd7c28b68632d4e3c9bde54cf9dbb1cbe29fd54725"
+module "modules/constant_time_crypto_x509.lume" sha256 = "dfb11832b1aab3233a22134ec591e3c8684ae1d1d5717ab16c5ec31a24b83d4a"
+module "modules/cyber_physical_ufe_ote_mesh.lume" sha256 = "a2d7831318368f307114253d2c8133e28d7aa838623422774dd7a03e921615e8"
+module "modules/fintech_pix_nfe_ledger.lume" sha256 = "99f0e3d9683b555136973efa2b7eadef9b07cb50583b32a8c5c1390591978031"
+module "modules/llm_hybrid_router.lume" sha256 = "bf0007b708133cee6e356b6e4dd121ce28d97624e512f2f43c59fe0780a2db9c"
+module "modules/silicon_quantum_dna_codec.lume" sha256 = "ed1c52dc23966bdea9be597ab7647c019ea49919a12cc9cf4130643f56469856"
+module "modules/triad_safety_envelope.lume" sha256 = "a8fa18c6241241526133d670d9e6414265a968fbd2f96e30060e342fbea0ade6"
+module "modules/ui_cyber_layout.lume" sha256 = "c62514e363b97afe9137d7595c8a53a853947d549bc14f2fad4bb017c11a7bec"
+module "omega_compute_core.src" sha256 = "1cb61bf805ea9546b690cabf1d5a490a7a1a138d37af2b959f24866679390b00"
+module "omega_pe64_gui_synth.src" sha256 = "e094c710ddc5d9c9ee3521c40cf18faa6febfc85ca80327470678e3879ecbdcd"
+module "omega_rtc_kernel.src" sha256 = "fce2b735fe8ff9ecea6509793e2ff3bb11b7ea73f498d4161084e27d19db1935"
+module "omega_sovereign.lume" sha256 = "710bbe4100eac714d8d425c199a030325750f9ad162409e314fd21b8dcbfe34e"
+module "omega_sovereign.src" sha256 = "8c25989462d8243490d2f790147aa881299efc5affa58d03a3deb82fea81e31d"
+module "safety_bundle/channel_a_x86_64.src" sha256 = "22cd8d090d8d950fffab421444ac34b7f6348b2e45efbee61edeec62400df09a"

@@ -4,7 +4,9 @@
 *.compile.err
 *.assemble.err
 omega_linux_elf
+omega_linux_elf.*
 omega_pe64_synth_elf
+omega_pe64_synth_elf.*
 omega_gui.hex
 omega_p33.hex
 .DS_Store
