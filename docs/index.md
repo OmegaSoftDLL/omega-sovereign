@@ -34,6 +34,7 @@
 
 ## Architecture Manuals & Technical Wiki
 
+- **[What You Can Do With Omega Sovereign — Practical Capabilities Guide (`CAPABILITIES.md`)](https://github.com/OmegaSoftDLL/omega-sovereign/blob/main/CAPABILITIES.md)**
 - **[Main Repository Manual (`EN` & `PT-BR`)](https://github.com/OmegaSoftDLL/omega-sovereign#readme)**
 - **[Wiki Home — Architectural Index (`v5.0`)](wiki/Home.html)**
 - **[Win64 Native GUI Architecture (`OmegaSovereign_GUI.exe` `50,176 B` & `OmegaSovereign_P33.exe` `50,208 B`)](wiki/Win64-Native-GUI-Architecture.html)**

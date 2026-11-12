@@ -18,7 +18,7 @@
 [![Win64 PE32+ Cyber-Obsidian GUI](https://img.shields.io/badge/Win64_PE32%2B_GUI-50%2C176_B_Cyber--Obsidian_Studio-38bdf8?style=for-the-badge&logo=windows)](OmegaSovereign_GUI.exe)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-22c55e?style=for-the-badge)](LICENSE)
 
-[**English Architecture Manual**](#executive-overview--what-omega-sovereign-v50-is--how-it-is-engineered) · [**12 Sovereign Pillars**](#the-12-sovereign-architectural-pillars-demonstrated-in-v50) · [**8 `.lume` Domain Modules**](#the-8-surface-lume-domain-modules-moduleslume) · [**Repository Structure**](#repository-structure) · [**Quick-Start & Assurance Gates**](#quick-start-native-build--binary-assurance-gate-commands-lume-v110) · [**Manual Institucional Completo em Português (`PT-BR`)**](#manual-institucional-completo-em-português-pt-br) · [**Official Portal**](https://omegasoftdll.github.io/omega-sovereign/) · [**Wiki**](docs/wiki/Home.md) · [**Lume Compiler Repository**](https://github.com/OmegaSoftDLL/Lume)
+[**What You Can Do (`CAPABILITIES.md`)**](CAPABILITIES.md) · [**English Architecture Manual**](#executive-overview--what-omega-sovereign-v50-is--how-it-is-engineered) · [**12 Sovereign Pillars**](#the-12-sovereign-architectural-pillars-demonstrated-in-v50) · [**8 `.lume` Domain Modules**](#the-8-surface-lume-domain-modules-moduleslume) · [**Repository Structure**](#repository-structure) · [**Quick-Start & Assurance Gates**](#quick-start-native-build--binary-assurance-gate-commands-lume-v110) · [**Manual Institucional Completo em Português (`PT-BR`)**](#manual-institucional-completo-em-português-pt-br) · [**Official Portal**](https://omegasoftdll.github.io/omega-sovereign/) · [**Wiki**](docs/wiki/Home.md) · [**Lume Compiler Repository**](https://github.com/OmegaSoftDLL/Lume)
 
 <br/>
 
@@ -43,6 +43,20 @@ Omega Sovereign `v5.0` serves as the canonical production reference system provi
 > 🇧🇷 **Resumo Executivo em Português (`PT-BR`):** O **Omega Sovereign (`v5.0`, Edição 2026)** é o Command Center soberano full-stack, estúdio nativo de garantia binária e estação de trabalho multimodal de IA construído **100% em [Lume `v1.1.0`](https://github.com/OmegaSoftDLL/Lume) puro** (`Zero C / Zero C++ / Zero Rust / Zero Python / Zero Linker Externo`). Demonstra em um único repositório coeso os **12 Pilares Arquiteturais Soberanos** da Lume `v1.1.0`: compilação auto-hospedada em ponto fixo (`stage2 == stage3` + *Diverse Double-Compilation*), provas formais **`OmniProof-v4`** auditadas por **`lcert --check-source`**, validação simbólica pós-codegen de código de máquina (`ltv`, `ltv_rt` `18/18`, solver *clean-room* `lsmt`, cobertura **MC/DC com `0` condições descobertas** e cálculo estático de pilha `lstack`), criptografia *constant-time* **`[C0011]`** (PKI X.509v3 Ed25519, entropia NIST SP 800-90B e TLS 1.3), envelope de segurança **`2oo2D`** em *lockstep* contra compilador *clean-room* `RV32IM` (`safety_bundle/`), ponte poliglota **Camaleão para 9 ecossistemas (`[I0003]`)**, execução neural em pesos **`.safetensors` (`LumePuter`)**, roteador local de IA de `1,58-bit`, controle ciberfísico IEC 62443, FinTech brasileira (`SEFAZ NF-e`, `Pix CobV`, CNPJ Alfanumérico 2026), síntese de silício/quântica/DNA4 e o estúdio desktop nativo **Win64 `PE32+` Cyber-Obsidian** de **`50.176` bytes** ([`OmegaSovereign_GUI.exe`](OmegaSovereign_GUI.exe)) e **`50.208` bytes** ([`OmegaSovereign_P33.exe`](OmegaSovereign_P33.exe)). Consulte o [**Manual Institucional Completo em Português (`PT-BR`)**](#manual-institucional-completo-em-português-pt-br) abaixo.
 
 <br clear="right"/>
+
+---
+
+## What You Can Do With Omega Sovereign (Practical Capabilities Guide)
+
+> 📖 **Full Practical Guide:** Read **[`CAPABILITIES.md`](CAPABILITIES.md)** for a complete role-by-role breakdown, CLI workflows, and integration examples showing everything an engineer, analyst, or enterprise can do immediately after installing Omega Sovereign `v5.0.0`.
+
+1. **Operate a Zero-Dependency Native Win64 Studio & 3D Telemetry Cockpit:** Launch [`OmegaSovereign_GUI.exe`](OmegaSovereign_GUI.exe) (`50,176 B`), the P33 MBA-shielded [`OmegaSovereign_P33.exe`](OmegaSovereign_P33.exe) (`50,208 B`), or [`omega_cockpit.html`](omega_cockpit.html) offline with zero external runtimes.
+2. **Settle Financial & Tax Transactions With Zero-Cent-Loss Proofs:** Compute instant `Pix CobV` settlements, cap partial refunds (`pix_devolucao_conservation_law`), calculate `SEFAZ NF-e` / `DIFAL + FCP`, validate 2026 alphanumeric `CNPJ` (`Modulo-11`), and run `decimal(14, 2)` double-entry ledgers ([`modules/fintech_pix_nfe_ledger.lume`](modules/fintech_pix_nfe_ledger.lume)).
+3. **Run Fail-Closed Endpoint Forensics, `[C0011]` Constant-Time Crypto & X.509v3 PKI:** Triage `STIX 2.1` spyware IOCs in fail-closed airgap mode, inspect `PE64`/`ELF64`/`WASM`/`MBR` headers, execute branch-free `@secret @no_alloc` crypto, validate Ed25519 X.509v3 chains, and audit NIST SP 800-90B entropy ([`modules/constant_time_crypto_x509.lume`](modules/constant_time_crypto_x509.lume)).
+4. **Route Local `1.58-Bit` AI, Repair Price Hallucinations & Run In-Weights Neural VMs:** Route offline workloads across symbolic provers and `1.58-bit` local LLMs, block MoE SSD swap traps, repair commercial price hallucinations via CEGIS, and execute `RV32IM_Zba` state transitions inside [`omega_compute_core.safetensors`](omega_compute_core.safetensors) (`LumePuter`).
+5. **Certify Robotics, IEC 62443 OT Networks & Multi-Board `2oo2D` Lockstep:** Guarantee non-singular 7-DOF inverse kinematics, enforce control-loop stability margins ($\tau_{\max} = T_m / 4$), block unauthorized Purdue `L4 -> L1` packets, and verify `x86-64` vs bare-metal `RV32IM` `2oo2D` lockstep ([`safety_bundle/manifest.json`](safety_bundle/manifest.json)).
+6. **Protect Legacy Code Across 9 Ecosystems (`[I0003]` Chameleon FFI):** Promote `unverified[T] -> verified[T]` across C/C++, Rust, Python/DLPack, Node/WASM, Go, Java JNI, .NET, SQL, and OpenAPI ([`modules/chameleon_polyglot_guard.lume`](modules/chameleon_polyglot_guard.lume)).
+7. **Synthesize & Audit GPU Shaders, Autodiff Verilog RTL, `DNA4` Archives & Quantum QEC:** Generate CUDA PTX, Vulkan SPIR-V, synthesizable autodiff Verilog RTL ([`omega_neural_autodiff.v`](omega_neural_autodiff.v)), homopolymer-free `DNA4` strands ([`omega_genome_storage.dna4`](omega_genome_storage.dna4)), and `OpenQASM 3.0` + `[[9,1,3]]` Surface-Code QEC circuits ([`omega_quantum_bell.qasm`](omega_quantum_bell.qasm)).
 
 ---
 
@@ -242,6 +256,7 @@ omega-sovereign/
 ├── omega_web_dom.wasm                  # WebAssembly DOM reactive layout & telemetry module
 ├── docs/                               # GitHub Pages portal (index.md, _config.yml, assets/, wiki/*.md)
 ├── assets/                             # Official SVG/JPG/ICO branding, animated hero & Lumi mascot emblems
+├── CAPABILITIES.md                     # Practical guide: what users & teams can do with Omega Sovereign
 ├── PROJECTS.md                         # Engineering deliverables matrix (OS-01 .. OS-12)
 ├── COMMUNITY.md                        # LumeLabs & ODSI community governance
 ├── SECURITY.md                         # Cryptographic, binary-assurance, FFI & P33 security policy
